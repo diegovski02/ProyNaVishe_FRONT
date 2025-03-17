@@ -9,7 +9,7 @@ pr:
       - main  # También ejecuta el pipeline en pull requests a main
 
 pool:
-  vmImage: 'ubuntu-latest'  # Usa una máquina Linux estándar
+  name: 'Default'  # ✅ Esto usará tu agente local
 
 steps:
   - checkout: self  # Clona el repositorio
