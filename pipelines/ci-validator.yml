@@ -9,16 +9,15 @@ pr:
       - main  # También ejecuta el pipeline en pull requests a main
 
 pool:
-  name: 'Default'  # ✅ Esto usará tu agente local
+  name: 'Default'  # Usa tu agente local
 
 steps:
   - checkout: self  # Clona el repositorio
 
   - script: echo "Pipeline básico de Frontend ejecutándose..."
-    displayName: "Mensaje de inicio"
 
-  - script: ls -la
-    displayName: "Listar archivos en el repositorio"
+  - script: |
+      if "%OS%"=="Windows_NT" (dir) else (ls -la)
 
   - script: echo "Fin del pipeline"
-    displayName: "Finalizar ejecución"
+
