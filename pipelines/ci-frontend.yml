@@ -1,0 +1,40 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "18.x"
+    displayName: "Instalar Node.js"
+
+  - script: |
+      npm install -g rspack
+      npm install
+    displayName: "Instalar dependencias"
+
+  - script: npm run test
+    displayName: "Ejecutar pruebas"
+
+  - script: npm run build
+    displayName: "Compilar con Rspack"
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: "dist"
+      artifactName: "frontend-build"
+    displayName: "Publicar artefactos"
+
+  - task: AmazonWebServices.aws-vsts-tools.S3Upload@1
+    inputs:
+      awsCredentials: "<nombre-de-tu-conexión-aws>"
+      regionName: "us-east-1"
+      bucketName: "<tu-bucket-s3>"
+      sourceFolder: "dist"
+      globExpressions: "**/*"
+    displayName: "Desplegar en Amazon S3"
+

@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+      - main  # Ejecuta el pipeline cuando haya cambios en main
+
+pr:
+  branches:
+    include:
+      - main  # También ejecuta el pipeline en pull requests a main
+
+pool:
+  name: 'Default'  # Usa tu agente local
+
+steps:
+  - checkout: self  # Clona el repositorio
+
+  - script: echo "Pipeline básico de Frontend ejecutándose..."
+
+  - script: |
+      if "%OS%"=="Windows_NT" (dir) else (ls -la)
+
+  - script: echo "Fin del pipeline"
+
