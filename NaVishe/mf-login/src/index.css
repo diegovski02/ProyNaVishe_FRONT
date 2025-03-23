@@ -1,0 +1,128 @@
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left-section {
+  flex: 0 0 30%; 
+  background-color: #FFF9E5; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.login-logo {
+  width: 260px;
+  height: 170px;
+  margin-bottom: 30px; 
+}
+
+.left-section h1 {
+  font-size: 2.8rem; /* Título más grande */
+  color: #000000;
+  margin: 0 0 15px 0; /* Más espacio debajo del título */
+}
+
+.left-section p {
+  font-size: 1.3rem; /* Texto más grande */
+  color: #000000;
+  line-height: 1.5;
+}
+
+/* Sección derecha */
+.right-section {
+  flex: 1; /* Ocupa el resto del espacio */
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 350px; /* Ancho del formulario */
+  text-align: center;
+}
+
+.form-container h2 {
+  font-size: 2.5rem; /* Título más grande */
+  color: #000000;
+  margin-bottom: 40px; /* Más espacio debajo del título */
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 1.1rem; /* Texto de error más grande */
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 20px; /* Espacio entre los campos */
+}
+
+.login-input {
+  padding: 14px 20px; 
+  font-size: 1.2rem; /* Texto más grande */
+  border: 1px solid #000000; /* Borde negro */
+  border-radius: 25px; /* Bordes redondeados */
+  background-color: #F5F5F5; /* Fondo gris claro */
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-input::placeholder {
+  color: #666666;
+  font-size: 1.2rem; /* Placeholder más grande */
+}
+
+.login-button {
+  padding: 14px; /* Botón más alto */
+  font-size: 1.2rem; /* Texto más grande */
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #8A9A5B; /* Verde oscuro */
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-button:hover {
+  background-color: #7A8A4B; /* Verde más oscuro al pasar el mouse */
+}
+
+.guest-button {
+  margin-top: 20px; /* Espacio arriba del botón */
+  padding: 14px; /* Mismo padding que el botón principal */
+  font-size: 1.2rem; /* Texto más grande */
+  font-weight: bold;
+  color: #000000;
+  background-color: transparent; /* Fondo transparente */
+  border: 1px solid #8A9A5B; /* Borde verde oscuro */
+  border-radius: 25px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.guest-button:hover {
+  background-color: #F5F5F5; /* Fondo gris claro al pasar el mouse */
+}
