@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../index.css";
-import naVisheLogo from "../assets/na-vishe-logo.png";
-import camerasIcon from "../assets/cameras-icon.png";
-import workerIcon from "../assets/worker-icon.png";
-import logoutIcon from "../assets/logout-icon.png";
 import colmenaImage from "../assets/img_colmena.jpg";
 import enVivoIcon from "../assets/en-vivo.png";
+import Navbar from 'componentes-compartidos/navbar';
+
 
 const Colmenas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal de agregar
@@ -147,49 +145,15 @@ const Colmenas = () => {
     colmena.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+ 
   return (
-    <div className="dashboard-container">
-      {/* Sidebar */}
-      <div className="sidebar">
-        <div className="sidebar-header">
-          <img src={naVisheLogo} alt="Ña Vishe Logo" className="sidebar-logo" />
-          <h1>Ña Vishe</h1>
-        </div>
-        <nav className="sidebar-nav">
-          <ul>
-            <li className="active">
-              <span className="sidebar-icon">📊</span>
-              Dashboard
-            </li>
-            <hr className="sidebar-divider" />
-            <li>
-              <span className="sidebar-icon">🐝</span>
-              Lista de Colmenas
-            </li>
-            <hr className="sidebar-divider" />
-            <li>
-              <img src={camerasIcon} alt="Cameras Icon" className="sidebar-icon" />
-              Cámaras
-            </li>
-            <hr className="sidebar-divider" />
-            <li>
-              <img src={workerIcon} alt="Worker Icon" className="sidebar-icon" />
-              Gestión Trabajador
-            </li>
-            <hr className="sidebar-divider" />
-            <li>
-              <span className="sidebar-icon">⚙️</span>
-              Configuración
-            </li>
-            <hr className="sidebar-divider" />
-            <li>
-              <img src={logoutIcon} alt="Logout Icon" className="sidebar-icon" />
-              Cerrar Sesión
-            </li>
-          </ul>
-        </nav>
-      </div>
+    /* importar el nabvar */
+    <div>
+     <div>
+      <Navbar />
+    </div>
 
+    <div className="dashboard-container">
       {/* Contenido principal */}
       <div className="main-content">
         <header className="header">
@@ -508,6 +472,7 @@ const Colmenas = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };
