@@ -1,0 +1,91 @@
+.navbar {
+    width: 308px; 
+    height: 100vh; 
+    background-color: #F8F199; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column; 
+    padding-top: 20px;
+  }
+  
+  .navbar-header {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    padding: 0 20px; 
+    margin-top: 20px;
+    margin-bottom: 70px;
+  }
+  
+  .navbar-header .logo-principal {
+    height: 70px;
+    width: auto; 
+    margin-right: 10px;
+  }
+  
+  .navbar-header h1 {
+    color: black; 
+    font-size: 32px; 
+    margin: 0; 
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .navbar-navegacion{
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    margin-left: 1.5rem;
+  }
+
+  .navbar-navegacion .descripcion{
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-bottom: 50px;
+    padding-left: 18px;
+    padding-top: 12px;
+  }
+  .navbar-navegacion .icono-1{
+    height: 48px;
+    width: auto;
+  }
+  .navbar-navegacion .icono-2{
+    height: 48px;
+    width: auto;
+  }
+  .navbar-navegacion .icono-3{
+    height: 48px;
+    width: auto;
+  }
+  .navbar-navegacion .icono-4{
+    height: 48px;
+    width: auto;
+  }
+  .navbar-navegacion .iconFlecha{
+    padding-top: 14px;
+  }
+
+  .LogOut{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 1.5rem;
+  }
+  .LogOut .cs {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    margin-top: 45px;
+  }
+  .LogOut .cs .descripcion{
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-top: 15px;
+    padding-left: 20px;
+  }
+  .LogOut .cs .icono-5{
+    height: 48px;
+    width: auto;
+  }
+  .LogOut .cs .iconFlecha{
+    padding-top: 13px;
+  }
+  
