@@ -10,87 +10,15 @@ html, body {
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  width: 100vw;
+  width: 80%;
   font-family: Arial, sans-serif;
-  margin: 0;
+  margin: 0 0 0 auto;
   padding: 0;
   box-sizing: border-box;
+  
 }
 
-.sidebar {
-  width: 200px;
-  background-color: #FFF9E5;
-  padding: 20px 10px; 
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
 
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 40px; 
-  justify-content: center; 
-}
-
-.sidebar-logo {
-  width: 40px;
-  height: 40px;
-}
-
-.sidebar h1 {
-  font-size: 1.5rem;
-  color: #000000;
-  margin: 0;
-}
-
-.sidebar-nav {
-  flex: 1;
-}
-
-.sidebar-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0; /* Eliminar márgenes para un diseño más limpio */
-}
-
-.sidebar-nav li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 15px; /* Ajusté el padding para que sea más compacto */
-  margin-bottom: 5px;
-  color: #000000;
-  cursor: pointer;
-  font-size: 1rem;
-  position: relative; /* Para posicionar la flecha */
-}
-
-.sidebar-nav li.active {
-  background-color: #E9ECEF; /* Fondo gris claro para la opción activa */
-  border-radius: 5px;
-}
-
-.sidebar-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-}
-
-.sidebar-arrow {
-  position: absolute;
-  right: 15px; /* Posicionar la flecha a la derecha */
-  font-size: 1rem;
-  color: #000000;
-}
-
-.sidebar-divider {
-  border: 0;
-  border-top: 1px solid #ddd;
-  margin: 5px 0;
-}
 
 /* Contenido principal */
 .main-content {
@@ -109,8 +37,9 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: -22px;
   margin-bottom: 20px;
-  background-color: #E9ECEF;
+  background-color: #fff;
   padding: 10px 20px;
   border-radius: 5px;
   width: 100%;
