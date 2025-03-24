@@ -16,7 +16,7 @@ html, body {
 
 .left-section {
   flex: 0 0 30%; 
-  background-color: #FFF9E5; 
+  background-color: #F8F199; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,13 +26,14 @@ html, body {
 }
 
 .login-logo {
-  width: 260px;
-  height: 170px;
+  
+  height: 250px;
+  width: auto;
   margin-bottom: 30px; 
 }
 
 .left-section h1 {
-  font-size: 2.8rem; /* Título más grande */
+  font-size: 3rem; /* Título más grande */
   color: #000000;
   margin: 0 0 15px 0; /* Más espacio debajo del título */
 }
@@ -56,12 +57,12 @@ html, body {
 
 .form-container {
   width: 100%;
-  max-width: 350px; /* Ancho del formulario */
+  max-width: 510px; /* Ancho del formulario */
   text-align: center;
 }
 
 .form-container h2 {
-  font-size: 2.5rem; /* Título más grande */
+  font-size: 3.5rem; /* Título más grande */
   color: #000000;
   margin-bottom: 40px; /* Más espacio debajo del título */
 }
@@ -97,7 +98,7 @@ html, body {
   font-size: 1.2rem; /* Texto más grande */
   font-weight: bold;
   color: #FFFFFF;
-  background-color: #8A9A5B; /* Verde oscuro */
+  background-color: #897F0E; /* Verde oscuro */
   border: none;
   border-radius: 25px;
   cursor: pointer;
@@ -110,13 +111,13 @@ html, body {
 }
 
 .guest-button {
-  margin-top: 20px; /* Espacio arriba del botón */
+  margin-top: 50px; /* Espacio arriba del botón */
   padding: 14px; /* Mismo padding que el botón principal */
   font-size: 1.2rem; /* Texto más grande */
   font-weight: bold;
   color: #000000;
   background-color: transparent; /* Fondo transparente */
-  border: 1px solid #8A9A5B; /* Borde verde oscuro */
+  border: none; /* Borde verde oscuro */
   border-radius: 25px;
   cursor: pointer;
   width: 100%;
@@ -124,5 +125,5 @@ html, body {
 }
 
 .guest-button:hover {
-  background-color: #F5F5F5; /* Fondo gris claro al pasar el mouse */
+  color:#897F0E; /* Fondo gris claro al pasar el mouse */
 }
