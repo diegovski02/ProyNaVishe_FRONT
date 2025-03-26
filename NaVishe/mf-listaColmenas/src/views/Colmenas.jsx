@@ -16,6 +16,7 @@ const Colmenas = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
   const [locationInput, setLocationInput] = useState("");
+  const [mapError, setMapError] = useState(null); // Estado para manejar errores del mapa
   const [colmenas, setColmenas] = useState([
     { id: "3213", temp: "20°C", humidity: "10%", weight: "20 k", audio: true, image: colmenaImage, lat: -25.2637, lng: -57.5759, address: "Asunción, Paraguay" },
     { id: "6436", temp: "20°C", humidity: "10%", weight: "20 k", audio: true, image: colmenaImage, lat: -25.3000, lng: -57.6000, address: "Asunción, Paraguay" },
@@ -29,25 +30,76 @@ const Colmenas = () => {
   const autocompleteRef = useRef(null);
   const mapRef = useRef(null);
 
+  // Cargar el script de Google Maps dinámicamente
   useEffect(() => {
-    if (isModifyModalOpen && window.google) {
-      const autocomplete = new window.google.maps.places.Autocomplete(
-        autocompleteRef.current,
-        { types: ['geocode'] }
-      );
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (place.geometry) {
-          setSelectedColmena({
-            ...selectedColmena,
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
-            address: place.formatted_address
+    const loadGoogleMapsScript = () => {
+      if (!window.google) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAzvjPshVi9uQUokL7uZ_ZJovSircoZMF4&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+        script.onload = () => {
+          console.log("Script de Google Maps cargado correctamente");
+          initializeMapAndAutocomplete();
+        };
+        script.onerror = () => {
+          console.error("Error al cargar el script de Google Maps");
+          setMapError("No se pudo cargar el script de Google Maps. Verifica tu clave de API y conexión a internet.");
+        };
+      } else {
+        initializeMapAndAutocomplete();
+      }
+    };
+
+    const initializeMapAndAutocomplete = () => {
+      if (isModifyModalOpen && mapRef.current && selectedColmena) {
+        try {
+          // Inicializar el mapa
+          const map = new window.google.maps.Map(mapRef.current, {
+            center: { lat: selectedColmena.lat, lng: selectedColmena.lng },
+            zoom: 15,
           });
-          setLocationInput(place.formatted_address);
+          new window.google.maps.Marker({
+            position: { lat: selectedColmena.lat, lng: selectedColmena.lng },
+            map: map,
+          });
+
+          // Inicializar Autocompletar
+          const autocomplete = new window.google.maps.places.Autocomplete(
+            autocompleteRef.current,
+            { types: ["geocode"] }
+          );
+          autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            if (place.geometry) {
+              const newLat = place.geometry.location.lat();
+              const newLng = place.geometry.location.lng();
+              setSelectedColmena({
+                ...selectedColmena,
+                lat: newLat,
+                lng: newLng,
+                address: place.formatted_address,
+              });
+              setLocationInput(place.formatted_address);
+              map.setCenter({ lat: newLat, lng: newLng });
+              new window.google.maps.Marker({
+                position: { lat: newLat, lng: newLng },
+                map: map,
+              });
+            } else {
+              console.error("No hay geometría disponible para el lugar seleccionado");
+              setMapError("No se pudo obtener la ubicación del lugar seleccionado.");
+            }
+          });
+        } catch (error) {
+          console.error("Error al inicializar el mapa o Autocompletar:", error);
+          setMapError("Error al cargar el mapa o Autocompletar. Verifica que las APIs de JavaScript de Maps y Lugares estén habilitadas.");
         }
-      });
-    }
+      }
+    };
+
+    loadGoogleMapsScript();
   }, [isModifyModalOpen, selectedColmena]);
 
   const handleOpenModal = () => setIsModalOpen(true);
@@ -68,16 +120,18 @@ const Colmenas = () => {
     setLocationInput(colmena.address || `${colmena.lat}, ${colmena.lng}`);
     setIsModifyModalOpen(true);
     setOpenMenuId(null);
+    setMapError(null); // Limpiar errores al abrir el modal
   };
   const handleCloseModifyModal = () => {
     setIsModifyModalOpen(false);
     setSelectedColmena(null);
     setIsCalendarOpen(false);
     setLocationInput("");
+    setMapError(null); // Limpiar errores al cerrar el modal
   };
   const handleModifySubmit = (e) => {
     e.preventDefault();
-    setColmenas(colmenas.map(colm => 
+    setColmenas(colmenas.map((colm) =>
       colm.id === selectedColmena.id ? selectedColmena : colm
     ));
     console.log("Colmena modificada:", selectedColmena);
@@ -262,7 +316,7 @@ const Colmenas = () => {
                           </div>
                           <div className="calendar-body">
                             <div className="calendar-days" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
-                              <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                              <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
                             </div>
                             <div className="calendar-dates" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
                               {emptyDays.map((_, index) => (
@@ -304,13 +358,15 @@ const Colmenas = () => {
                     loading="lazy"
                     allowFullScreen
                     src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAzvjPshVi9uQUokL7uZ_ZJovSircoZMF4&q=${selectedColmena.lat},${selectedColmena.lng}&zoom=15`}
+                    onError={() => setMapError("Error al cargar el mapa embebido. Verifica que la API de Mapas Embebidos esté habilitada.")}
                   ></iframe>
+                  {mapError && <p style={{ color: 'red' }}>{mapError}</p>}
                 </div>
               </div>
             </div>
           )}
 
-         
+          {/* Modal de Modificar */}
           {isModifyModalOpen && selectedColmena && (
             <div className="modal-overlay">
               <div className="modal" style={{ width: '90%', maxWidth: '400px' }}>
@@ -358,7 +414,7 @@ const Colmenas = () => {
                             </div>
                             <div className="calendar-body">
                               <div className="calendar-days" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
-                                <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                                <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
                               </div>
                               <div className="calendar-dates" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
                                 {emptyDays.map((_, index) => (
@@ -390,6 +446,7 @@ const Colmenas = () => {
                         style={{ width: '100%' }}
                       />
                       <div ref={mapRef} style={{ height: '300px', width: '100%', marginTop: '10px' }}></div>
+                      {mapError && <p style={{ color: 'red' }}>{mapError}</p>}
                     </div>
                     <button type="submit" className="submit-button" style={{ width: '100%' }}>
                       Guardar Cambios
