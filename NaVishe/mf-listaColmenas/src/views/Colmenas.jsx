@@ -313,7 +313,7 @@ const Colmenas = () => {
          
           {isModifyModalOpen && selectedColmena && (
             <div className="modal-overlay">
-              <div className="modal" style={{ width: '90%', maxWidth: '500px' }}>
+              <div className="modal" style={{ width: '90%', maxWidth: '400px' }}>
                 <div className="modal-header">
                   <h2>Modificar Colmena {selectedColmena.id}</h2>
                   <button className="modal-close" onClick={handleCloseModifyModal}>✕</button>
