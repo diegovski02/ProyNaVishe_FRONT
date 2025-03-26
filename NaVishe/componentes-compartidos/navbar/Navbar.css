@@ -1,3 +1,4 @@
+/* General Navbar Styles */
 .navbar {
   width: clamp(200px, 20vw, 308px);
   height: 100vh;
@@ -11,10 +12,11 @@
   transition: width 0.3s ease;
 }
 
+/* Navbar Header */
 .navbar-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Default for desktop */
   padding: 0 clamp(10px, 2vw, 20px);
   margin-top: 20px;
   margin-bottom: clamp(20px, 5vh, 70px);
@@ -31,6 +33,16 @@
   font-size: clamp(24px, 3vw, 32px);
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hamburger Button */
+.hamburger {
+  display: none; /* Hidden by default on desktop */
+  font-size: clamp(20px, 3vw, 24px);
+  background: none;
+  border: none;
+  cursor: pointer;
+  order: -1; /* Moves hamburger to the left in flex layout */
 }
 
 /* Desktop Navigation */
@@ -99,18 +111,9 @@
   padding-top: clamp(8px, 1vh, 13px);
 }
 
-/* Hamburger Button */
-.hamburger {
-  display: none;
-  font-size: clamp(20px, 3vw, 24px);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 /* Mobile Menu */
 .mobile-menu {
-  display: none;
+  display: none; /* Hidden by default */
 }
 
 .mobile-menu.open {
@@ -121,6 +124,7 @@
   width: 100%;
   background-color: #F8F199;
   padding: 10px 0;
+  z-index: 1000;
 }
 
 .mobile-menu-list {
@@ -157,20 +161,27 @@
   }
 
   .navbar-header {
-    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Keep items aligned to the left */
     margin-bottom: 10px;
   }
 
   .hamburger {
-    display: block;
+    display: block; /* Show hamburger on mobile */
+    margin-right: clamp(5px, 1vw, 10px); /* Space between hamburger and logo */
   }
 
   .navbar-navegacion,
   .LogOut {
-    display: none;
+    display: none; /* Hide desktop navigation and logout */
   }
 
   .mobile-menu {
+    display: none; /* Hidden by default, shown via .open */
+  }
+
+  .mobile-menu.open {
     display: block;
   }
 }
