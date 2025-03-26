@@ -1,91 +1,176 @@
 .navbar {
-    width: 308px; 
-    height: 100vh; 
-    background-color: #F8F199; 
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column; 
-    padding-top: 20px;
+  width: clamp(200px, 20vw, 308px);
+  height: 100vh;
+  background-color: #F8F199;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  transition: width 0.3s ease;
+}
+
+.navbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 clamp(10px, 2vw, 20px);
+  margin-top: 20px;
+  margin-bottom: clamp(20px, 5vh, 70px);
+}
+
+.navbar-header .logo-principal {
+  height: clamp(50px, 6vw, 70px);
+  width: auto;
+  margin-right: clamp(5px, 1vw, 10px);
+}
+
+.navbar-header h1 {
+  color: black;
+  font-size: clamp(24px, 3vw, 32px);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Desktop Navigation */
+.navbar-navegacion {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-left: clamp(1rem, 2vw, 1.5rem);
+}
+
+.nav-item {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  align-items: center;
+}
+
+.nav-item.active {
+  background-color: #e0e080; /* Highlight active item */
+}
+
+.navbar-navegacion .descripcion {
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: Arial, Helvetica, sans-serif;
+  padding-bottom: clamp(20px, 3vh, 50px);
+  padding-left: clamp(10px, 1.5vw, 18px);
+  padding-top: clamp(8px, 1vh, 12px);
+}
+
+.navbar-navegacion .icono-1,
+.navbar-navegacion .icono-2,
+.navbar-navegacion .icono-3,
+.navbar-navegacion .icono-4 {
+  height: clamp(32px, 4vw, 48px);
+  width: auto;
+}
+
+.navbar-navegacion .iconFlecha {
+  padding-top: clamp(8px, 1vh, 14px);
+}
+
+/* Logout Section */
+.LogOut {
+  font-size: clamp(16px, 2vw, 20px);
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: clamp(1rem, 2vw, 1.5rem);
+}
+
+.LogOut .cs {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  margin-top: clamp(20px, 3vh, 45px);
+}
+
+.LogOut .cs .descripcion {
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: Arial, Helvetica, sans-serif;
+  padding-top: clamp(10px, 1vh, 15px);
+  padding-left: clamp(10px, 2vw, 20px);
+}
+
+.LogOut .cs .icono-5 {
+  height: clamp(32px, 4vw, 48px);
+  width: auto;
+}
+
+.LogOut .cs .iconFlecha {
+  padding-top: clamp(8px, 1vh, 13px);
+}
+
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  font-size: clamp(20px, 3vw, 24px);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+}
+
+.mobile-menu.open {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #F8F199;
+  padding: 10px 0;
+}
+
+.mobile-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-menu-item {
+  display: flex;
+  align-items: center;
+  padding: clamp(8px, 2vw, 10px) clamp(10px, 3vw, 20px);
+  font-size: clamp(14px, 2vw, 18px);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.mobile-menu-item.active {
+  background-color: #e0e080;
+}
+
+.mobile-menu-icon {
+  height: clamp(32px, 4vw, 48px);
+  width: auto;
+  margin-right: clamp(5px, 1vw, 10px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-bottom: 0;
   }
-  
+
   .navbar-header {
-    display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
-    padding: 0 20px; 
-    margin-top: 20px;
-    margin-bottom: 70px;
-  }
-  
-  .navbar-header .logo-principal {
-    height: 70px;
-    width: auto; 
-    margin-right: 10px;
-  }
-  
-  .navbar-header h1 {
-    color: black; 
-    font-size: 32px; 
-    margin: 0; 
-    font-family: Arial, Helvetica, sans-serif;
+    justify-content: space-between;
+    margin-bottom: 10px;
   }
 
-  .navbar-navegacion{
-    display: grid;
-    grid-template-columns: 1fr 5fr 1fr;
-    margin-left: 1.5rem;
+  .hamburger {
+    display: block;
   }
 
-  .navbar-navegacion .descripcion{
-    font-size: 18px;
-    font-family: Arial, Helvetica, sans-serif;
-    padding-bottom: 50px;
-    padding-left: 18px;
-    padding-top: 12px;
-  }
-  .navbar-navegacion .icono-1{
-    height: 48px;
-    width: auto;
-  }
-  .navbar-navegacion .icono-2{
-    height: 48px;
-    width: auto;
-  }
-  .navbar-navegacion .icono-3{
-    height: 48px;
-    width: auto;
-  }
-  .navbar-navegacion .icono-4{
-    height: 48px;
-    width: auto;
-  }
-  .navbar-navegacion .iconFlecha{
-    padding-top: 14px;
+  .navbar-navegacion,
+  .LogOut {
+    display: none;
   }
 
-  .LogOut{
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-left: 1.5rem;
+  .mobile-menu {
+    display: block;
   }
-  .LogOut .cs {
-    display: grid;
-    grid-template-columns: 1fr 5fr 1fr;
-    margin-top: 45px;
-  }
-  .LogOut .cs .descripcion{
-    font-size: 18px;
-    font-family: Arial, Helvetica, sans-serif;
-    padding-top: 15px;
-    padding-left: 20px;
-  }
-  .LogOut .cs .icono-5{
-    height: 48px;
-    width: auto;
-  }
-  .LogOut .cs .iconFlecha{
-    padding-top: 13px;
-  }
-  
+}
