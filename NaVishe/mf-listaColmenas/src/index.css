@@ -79,11 +79,16 @@ body, html {
     gap: 15px; /* Reduce the gap between cards for a tighter layout */
   }
 
+
   /* Shrink the colmena cards */
   .colmena-card {
-    /* Reduce the overall size of the card */
-    font-size: 0.9rem; /* Slightly smaller font size for all text inside the card */
-  }
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  background: white;
+  transition: transform 0.3s;
+  max-width: 300px; /* Limita el ancho máximo para que no crezcan demasiado */
+}
 
   /* Adjust the header of the card */
   .colmena-header {
@@ -415,56 +420,79 @@ body, html {
 
 /* Media Queries */
 @media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    border-right: none;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .content-wrapper {
-    margin-left: 0;
-    width: 100%;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .header-right {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .colmenas-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Reduce el tamaño mínimo de las tarjetas */
+    gap: 15px; /* Reduce el espacio entre tarjetas */
+    justify-content: center; /* Mantiene el centrado */
+  }
+
+  .colmena-card {
+    max-width: 220px; /* Reduce el tamaño máximo de las tarjetas */
+  }
+
+  /* Ajustar el tamaño de los elementos dentro de la tarjeta */
+  .colmena-header {
+    padding: 8px; /* Reduce el padding */
+    font-size: 0.9rem; /* Reduce el tamaño de fuente */
+  }
+
+  .colmena-image-placeholder {
+    height: 120px; /* Reduce la altura de la imagen */
+    aspect-ratio: 16/9; /* Mantiene la proporción */
+  }
+
+  .colmena-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .colmena-stats {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 10px; /* Reduce el padding */
+    gap: 8px; /* Reduce el espacio entre estadísticas */
+  }
+
+  .stat-item {
+    font-size: 0.85rem; /* Reduce el tamaño de fuente de las estadísticas */
+  }
+
+  .audio-icon {
+    width: 20px; /* Reduce el tamaño del ícono */
+    height: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .search-bar {
-    max-width: 100%;
+  .colmenas-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Aún más pequeñas */
+    gap: 10px; /* Reduce aún más el espacio */
+    justify-content: center; /* Mantiene el centrado */
+  }
+
+  .colmena-card {
+    max-width: 180px; /* Reduce aún más el tamaño máximo */
   }
 
   .colmena-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    padding: 6px;
+    font-size: 0.8rem;
   }
 
-  .colmena-header-icons {
-    width: 100%;
-    justify-content: flex-end;
+  .colmena-image-placeholder {
+    height: 100px; /* Reduce más la altura de la imagen */
   }
 
-  .modal {
-    max-width: 90vw;
+  .colmena-stats {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .stat-item {
+    font-size: 0.75rem; /* Aún más pequeño */
+  }
+
+  .audio-icon {
+    width: 18px;
+    height: 18px;
   }
 }
