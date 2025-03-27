@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "../index.css";
 import colmenaImage from "../assets/img_colmena.jpg";
 import enVivoIcon from "../assets/en-vivo.png";
-import Navbar from 'componentes-compartidos/navbar';
+import Navbar from 'componentes-compartidos/navbar'; // Adjust the path as needed
 
 const Colmenas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,7 +16,7 @@ const Colmenas = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
   const [locationInput, setLocationInput] = useState("");
-  const [mapError, setMapError] = useState(null); // Estado para manejar errores del mapa
+  const [mapError, setMapError] = useState(null);
   const [colmenas, setColmenas] = useState([
     { id: "3213", temp: "20°C", humidity: "10%", weight: "20 k", audio: true, image: colmenaImage, lat: -25.2637, lng: -57.5759, address: "Asunción, Paraguay" },
     { id: "6436", temp: "20°C", humidity: "10%", weight: "20 k", audio: true, image: colmenaImage, lat: -25.3000, lng: -57.6000, address: "Asunción, Paraguay" },
@@ -30,7 +30,6 @@ const Colmenas = () => {
   const autocompleteRef = useRef(null);
   const mapRef = useRef(null);
 
-  // Cargar el script de Google Maps dinámicamente
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       if (!window.google) {
@@ -55,7 +54,6 @@ const Colmenas = () => {
     const initializeMapAndAutocomplete = () => {
       if (isModifyModalOpen && mapRef.current && selectedColmena) {
         try {
-          // Inicializar el mapa
           const map = new window.google.maps.Map(mapRef.current, {
             center: { lat: selectedColmena.lat, lng: selectedColmena.lng },
             zoom: 15,
@@ -65,7 +63,6 @@ const Colmenas = () => {
             map: map,
           });
 
-          // Inicializar Autocompletar
           const autocomplete = new window.google.maps.places.Autocomplete(
             autocompleteRef.current,
             { types: ["geocode"] }
@@ -120,14 +117,14 @@ const Colmenas = () => {
     setLocationInput(colmena.address || `${colmena.lat}, ${colmena.lng}`);
     setIsModifyModalOpen(true);
     setOpenMenuId(null);
-    setMapError(null); // Limpiar errores al abrir el modal
+    setMapError(null);
   };
   const handleCloseModifyModal = () => {
     setIsModifyModalOpen(false);
     setSelectedColmena(null);
     setIsCalendarOpen(false);
     setLocationInput("");
-    setMapError(null); // Limpiar errores al cerrar el modal
+    setMapError(null);
   };
   const handleModifySubmit = (e) => {
     e.preventDefault();

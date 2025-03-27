@@ -10,6 +10,7 @@
   flex-direction: column;
   padding-top: 20px;
   transition: width 0.3s ease;
+  z-index: 1000; /* Ensure navbar stays on top */
 }
 
 /* Navbar Header */
@@ -56,6 +57,7 @@
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
   align-items: center;
+  cursor: pointer; /* Indicate clickable items */
 }
 
 .nav-item.active {
@@ -93,6 +95,7 @@
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
   margin-top: clamp(20px, 3vh, 45px);
+  cursor: pointer; /* Indicate clickable item */
 }
 
 .LogOut .cs .descripcion {
@@ -118,13 +121,14 @@
 
 .mobile-menu.open {
   display: block;
-  position: absolute;
-  top: 100%;
+  position: fixed; /* Use fixed to ensure it stays below the header */
+  top: 60px; /* Adjust based on navbar-header height */
   left: 0;
   width: 100%;
   background-color: #F8F199;
   padding: 10px 0;
   z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a shadow for better visibility */
 }
 
 .mobile-menu-list {
@@ -136,40 +140,56 @@
 .mobile-menu-item {
   display: flex;
   align-items: center;
-  padding: clamp(8px, 2vw, 10px) clamp(10px, 3vw, 20px);
-  font-size: clamp(14px, 2vw, 18px);
+  padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 20px); /* More padding for touch targets */
+  font-size: clamp(16px, 2.5vw, 20px); /* Larger font for readability */
   font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 1px solid #e0e080; /* Add a separator between items */
+  cursor: pointer; /* Indicate clickable items */
 }
 
 .mobile-menu-item.active {
   background-color: #e0e080;
+  font-weight: bold; /* Make active item stand out */
 }
 
 .mobile-menu-icon {
-  height: clamp(32px, 4vw, 48px);
+  height: clamp(28px, 3.5vw, 40px); /* Slightly smaller icons for mobile */
   width: auto;
-  margin-right: clamp(5px, 1vw, 10px);
+  margin-right: clamp(8px, 1.5vw, 12px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
     width: 100%;
-    height: auto;
-    position: relative;
-    padding-bottom: 0;
+    height: auto; /* Keep height auto for content */
+    position: fixed; /* Use fixed to keep navbar at the top */
+    top: 0;
+    left: 0;
+    background-color: #F8F199;
+    z-index: 1000; /* Ensure it stays on top */
   }
 
   .navbar-header {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Keep items aligned to the left */
+    justify-content: space-between; /* Distribute space between hamburger, logo, and title */
+    padding: 0 clamp(10px, 2vw, 20px);
     margin-bottom: 10px;
+  }
+
+  .navbar-header .logo-principal {
+    height: clamp(40px, 5vw, 50px); /* Slightly smaller logo for mobile */
+  }
+
+  .navbar-header h1 {
+    font-size: clamp(20px, 2.5vw, 24px); /* Smaller title for mobile */
   }
 
   .hamburger {
     display: block; /* Show hamburger on mobile */
-    margin-right: clamp(5px, 1vw, 10px); /* Space between hamburger and logo */
+    font-size: clamp(20px, 3vw, 24px);
+    margin-right: 0; /* Remove extra margin */
   }
 
   .navbar-navegacion,

@@ -1,5 +1,5 @@
 import React from "react";
-import Colmenas from "./views/colmenas";
+import Colmenas from "./views/Colmenas";
 
 
 function App() {
