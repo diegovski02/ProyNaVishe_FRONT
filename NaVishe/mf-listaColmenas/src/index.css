@@ -66,6 +66,7 @@ body, html {
   min-height: 100vh;
   background-color: #f5f5f5;
 }
+
 /* Ensure the same width adjustment for specific screen sizes */
 @media (min-width: 100px) and (max-width: 60px) {
   .content-wrapper {
@@ -82,7 +83,6 @@ body, html {
     max-width: 1200px; /* Limita el ancho total del grid para evitar que se extienda demasiado */
     margin: 0 auto; /* Centra el grid en la página */
   }
-
 
   /* Shrink the colmena cards */
   .colmena-card {
@@ -127,7 +127,14 @@ body, html {
     height: 20px;
   }
 }
+
 @media (max-width: 768px) {
+  .content-wrapper {
+    margin-left: 0; /* Remove margin for mobile since navbar is fixed */
+    width: 100%; /* Full width on mobile */
+    padding-top: 60px; /* Add padding to account for fixed navbar height */
+  }
+
   .colmenas-grid {
     grid-template-columns: repeat(2, 1fr); /* Reduce a 2 columnas */
     gap: 15px;
@@ -170,7 +177,7 @@ body, html {
 }
 
 .dashboard-container {
-  padding: 0; /* Remove padding to eliminate extra space */
+  padding: 40px; /* Remove padding to eliminate extra space */
   min-height: 100vh;
 }
 
@@ -190,6 +197,7 @@ body, html {
   padding: 20px; /* Add padding to the header for better spacing */
   background-color: #f5f5f5; /* Match the background to avoid visual gaps */
 }
+
 .header-left {
   display: flex;
   flex-direction: column;
@@ -498,6 +506,21 @@ body, html {
   .audio-icon {
     width: 20px; /* Reduce el tamaño del ícono */
     height: 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .add-button {
+    width: 100%;
+    text-align: center;
   }
 }
 
