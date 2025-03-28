@@ -31,20 +31,20 @@ html, body {
 }
 
 .left-section h1 {
-  font-size: 3rem; /* Título más grande */
+  font-size: 3rem;
   color: #000000;
-  margin: 0 0 15px 0; /* Más espacio debajo del título */
+  margin: 0 0 15px 0; 
 }
 
 .left-section p {
-  font-size: 1.3rem; /* Texto más grande */
+  font-size: 1.3rem; 
   color: #000000;
   line-height: 1.5;
 }
 
-/* Sección derecha */
+
 .right-section {
-  flex: 1; /* Ocupa el resto del espacio */
+  flex: 1; 
   background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
@@ -55,24 +55,24 @@ html, body {
 
 .form-container {
   width: 100%;
-  max-width: 510px; /* Ancho del formulario */
+  max-width: 510px; 
   text-align: center;
 }
 
 .form-container h2 {
-  font-size: 3.5rem; /* Título más grande */
+  font-size: 3.5rem; 
   color: #000000;
-  margin-bottom: 40px; /* Más espacio debajo del título */
+  margin-bottom: 40px; 
 }
 
 .error-message {
   color: #ff0000;
-  font-size: 1.1rem; /* Texto de error más grande */
+  font-size: 1.1rem; 
   margin-bottom: 15px;
 }
 
 .form-group {
-  margin-bottom: 20px; /* Espacio entre los campos */
+  margin-bottom: 20px; 
 }
 
 .login-input {
@@ -172,8 +172,8 @@ html, body {
   }
 
   .guest-button {
-    font-size: 1rem; /* Reduce el tamaño del texto del botón de invitado */
-    padding: 12px; /* Reduce el padding del botón */
-    margin-top: 30px; /* Reduce el espacio superior */
+    font-size: 1rem; 
+    padding: 12px;
+    margin-top: 30px; 
   }
 }
