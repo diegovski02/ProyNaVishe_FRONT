@@ -1,4 +1,3 @@
-
 html, body {
   margin: 0;
   padding: 0;
@@ -26,7 +25,6 @@ html, body {
 }
 
 .login-logo {
-  
   height: 250px;
   width: auto;
   margin-bottom: 30px; 
@@ -125,5 +123,57 @@ html, body {
 }
 
 .guest-button:hover {
-  color:#897F0E; /* Fondo gris claro al pasar el mouse */
+  color: #897F0E; /* Fondo gris claro al pasar el mouse */
+}
+
+/* Media Query para pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+  .login-container {
+    display: block; /* Cambia de flex a block para que no haya dos secciones */
+  }
+
+  .left-section {
+    display: none; /* Oculta la sección izquierda en pantallas pequeñas */
+  }
+
+  .right-section {
+    width: 100%; /* La sección derecha ocupa todo el ancho */
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    padding: 0; /* Elimina el padding para un centrado más preciso */
+    display: flex; /* Asegura que el contenido esté centrado */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+  }
+
+  .form-container {
+    max-width: 90%; /* Reduce el ancho máximo para que no toque los bordes */
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    padding: 20px; /* Añade un padding uniforme */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+  }
+
+  .form-container h2 {
+    font-size: 2rem; /* Reduce el tamaño del título en pantallas pequeñas */
+    margin-bottom: 30px;
+  }
+
+  .login-input {
+    font-size: 1rem; /* Reduce el tamaño del texto en los inputs */
+    padding: 12px 15px; /* Reduce el padding de los inputs */
+  }
+
+  .login-input::placeholder {
+    font-size: 1rem; /* Reduce el tamaño del placeholder */
+  }
+
+  .login-button {
+    font-size: 1rem; /* Reduce el tamaño del texto del botón */
+    padding: 12px; /* Reduce el padding del botón */
+  }
+
+  .guest-button {
+    font-size: 1rem; /* Reduce el tamaño del texto del botón de invitado */
+    padding: 12px; /* Reduce el padding del botón */
+    margin-top: 30px; /* Reduce el espacio superior */
+  }
 }

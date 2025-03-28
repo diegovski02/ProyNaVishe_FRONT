@@ -15,7 +15,7 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
     }
 
     try {
-      const response = await fetch("https://your-api.com/login", {
+      const response = await fetch("https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/dev/usuario", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
       </div>
       <div className="right-section">
         <div className="form-container">
-          <h2>Iniciar Sesión</h2>
+          <h2>Iniciar Sesión en ÑaVishe</h2>
           {error && <p className="error-message">{error}</p>}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
