@@ -176,4 +176,12 @@ html, body {
     padding: 12px;
     margin-top: 30px; 
   }
+  .success-message {
+    color: #28a745; /* Verde para éxito */
+    text-align: center;
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #d4edda;
+  }
 }

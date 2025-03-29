@@ -6,11 +6,13 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null); // Nuevo estado para mensaje de éxito
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError("Por favor, completa todos los campos");
+      setSuccessMessage(null); // Limpiar mensaje de éxito si hay error
       return;
     }
 
@@ -30,12 +32,14 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
       const data = await response.json();
       localStorage.setItem("token", data.token);
       setError(null);
+      setSuccessMessage("¡Logeo exitoso! Bienvenido"); // Mostrar mensaje de éxito
       console.log("Inicio de sesión exitoso:", data);
       if (onLoginSuccess) {
         onLoginSuccess(data);
       }
     } catch (err) {
       setError(err.message || "Algo salió mal");
+      setSuccessMessage(null); // Limpiar mensaje de éxito si hay error
     }
   };
 
@@ -59,6 +63,7 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
         <div className="form-container">
           <h2>Iniciar Sesión en ÑaVishe</h2>
           {error && <p className="error-message">{error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>} {/* Mostrar mensaje de éxito */}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input
