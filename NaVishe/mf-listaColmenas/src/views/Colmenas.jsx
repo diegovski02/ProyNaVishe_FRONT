@@ -8,7 +8,7 @@ const Colmenas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Nuevo estado para el modal de eliminación
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedColmena, setSelectedColmena] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -29,9 +29,9 @@ const Colmenas = () => {
     vascula: "",
     imagen_url: ""
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Mantenemos el estado pero no lo usamos para bloquear el render
   const [error, setError] = useState(null);
-  const [colmenaToDelete, setColmenaToDelete] = useState(null); // Estado para almacenar la colmena a eliminar
+  const [colmenaToDelete, setColmenaToDelete] = useState(null);
 
   const API_URL = "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/dev/colmena";
 
@@ -268,7 +268,6 @@ const Colmenas = () => {
   };
 
   const handleDelete = (id) => {
-    // Mostrar el modal en lugar de usar window.confirm
     const colmena = colmenas.find(c => c.id === id);
     setColmenaToDelete(colmena);
     setIsDeleteModalOpen(true);
@@ -378,7 +377,8 @@ const Colmenas = () => {
     colmena.id?.toString().includes(searchTerm)
   );
 
-  if (loading) return <div>Cargando colmenas...</div>;
+  // Eliminamos la condición de loading
+  // if (loading) return <div>Cargando colmenas...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -465,7 +465,11 @@ const Colmenas = () => {
                 ))
               ) : (
                 <div className="no-results">
-                  <p>No se encontraron colmenas.</p>
+                  {loading ? (
+                    <p>Cargando...</p> // Puedes dejar un mensaje sutil aquí si quieres
+                  ) : (
+                    <p>No se encontraron colmenas.</p>
+                  )}
                 </div>
               )}
             </div>
