@@ -22,6 +22,8 @@ steps:
   displayName: 'Instalar Node.js'
 
 - script: |
+    echo "Verificando la ubicación de package.json..."
+    ls $(Build.SourcesDirectory)/frontend  # Verifica que package.json esté en la carpeta 'frontend'
     cd frontend
     npm install
   displayName: 'Instalar dependencias de React'
@@ -41,7 +43,7 @@ steps:
 # Paso 4: Empaquetar la aplicación en un archivo .zip
 - script: |
     echo "Empaquetando la aplicación..."
-    powershell Compress-Archive -Path $(Build.SourcesDirectory)\* -DestinationPath $(Build.ArtifactStagingDirectory)\NaVisheWebApp.zip
+    powershell Compress-Archive -Path $(Build.SourcesDirectory)/frontend/* -DestinationPath $(Build.ArtifactStagingDirectory)/NaVisheWebApp.zip
   displayName: 'Empaquetar la aplicación'
 
 # Paso 5: Despliegue a QA
