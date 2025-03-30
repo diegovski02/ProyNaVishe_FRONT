@@ -26,16 +26,16 @@ steps:
     npm install
   displayName: 'Instalar dependencias de React'
 
-# Paso 3: Verificar existencia de package.json
+# Paso 3: Verificar existencia de package.json en el directorio frontend
 - script: |
-    echo Verificando si package.json existe...
+    echo Verificando si package.json existe en el directorio frontend...
     dir frontend
   displayName: 'Verificar existencia de package.json'
 
 # Paso 4: Validación de código y ejecución de pruebas
 - script: |
     cd frontend
-    npm run lint  # Asegúrate de que este script esté en package.json
+    npm run lint
     npm test
   displayName: 'Validación de código y pruebas'
 
@@ -62,4 +62,3 @@ steps:
 # Paso 7: Notificación de despliegue
 - script: echo "🚀 Despliegue completado en el entorno de QA para Front-End"
   displayName: 'Finalización del Deploy'
-
