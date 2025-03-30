@@ -23,8 +23,8 @@ steps:
 
 - script: |
     echo "Verificando la ubicación de package.json..."
-    ls $(Build.SourcesDirectory)/frontend  # Verifica que package.json esté en la carpeta 'frontend'
-    cd frontend
+    cd $(Build.SourcesDirectory)/frontend  # Cambié esta parte para asegurar que estés en la carpeta correcta
+    dir  # Esto listará los archivos y carpetas en la ubicación actual
     npm install
   displayName: 'Instalar dependencias de React'
 
