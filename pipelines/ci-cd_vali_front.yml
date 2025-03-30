@@ -18,7 +18,8 @@ steps:
 # Paso 2: Verificar si package.json existe
 - script: |
     echo Verificando si package.json existe...
-    dir proynavishe_front
+    cd ProyNaVishe_FRONT
+    dir
   displayName: 'Verificar existencia de package.json'
 
 # Paso 3: Instalar dependencias de React
