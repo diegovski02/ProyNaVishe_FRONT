@@ -15,21 +15,18 @@ steps:
 - script: echo 'Iniciando Desarrollo para Front-End...'
   displayName: 'Verificar Agente'
 
-# Paso 2: Instalar Node.js
+# Paso 2: Instalar dependencias de React
 - task: NodeTool@0
   inputs:
     versionSpec: '16.x'
   displayName: 'Instalar Node.js'
 
-# Paso 3: Instalar dependencias de React
 - script: |
-    echo "Verificando la ubicación de package.json..."
-    cd $(Build.SourcesDirectory)/frontend 
-    dir
+    cd proynavishe_front
     npm install
   displayName: 'Instalar dependencias de React'
 
-# Paso 4: Validación de código y ejecución de pruebas
+# Paso 3: Validación de código y ejecución de pruebas
 - script: |
     npm run lint
     npm test
@@ -41,13 +38,13 @@ steps:
     testRunTitle: 'Resultados de Pruebas Backend'
   displayName: 'Publicar los resultados de las pruebas'
 
-# Paso 5: Empaquetar la aplicación en un archivo .zip
+# Paso 4: Empaquetar la aplicación en un archivo .zip
 - script: |
     echo "Empaquetando la aplicación..."
-    powershell Compress-Archive -Path $(Build.SourcesDirectory)/frontend/* -DestinationPath $(Build.ArtifactStagingDirectory)/NaVisheWebApp.zip
+    powershell Compress-Archive -Path $(Build.SourcesDirectory)\* -DestinationPath $(Build.ArtifactStagingDirectory)\NaVisheWebApp.zip
   displayName: 'Empaquetar la aplicación'
 
-# Paso 6: Despliegue a QA
+# Paso 5: Despliegue a QA
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'AzureForStudentsConnection'
@@ -55,6 +52,6 @@ steps:
     package: '$(Build.ArtifactStagingDirectory)/NaVisheWebApp.zip'
     displayName: 'Desplegar a QA'
 
-# Paso 7: Notificación de despliegue
+# Paso 6: Notificación de despliegue
 - script: echo "🚀 Despliegue completado en el entorno de QA para Front-End"
   displayName: 'Finalización del Deploy'
