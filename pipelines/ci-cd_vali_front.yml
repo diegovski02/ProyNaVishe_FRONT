@@ -24,7 +24,7 @@ steps:
 # Paso 3: Instalar dependencias de React
 - script: |
     echo "Verificando la ubicación de package.json..."
-    cd $(Build.SourcesDirectory)/frontend
+    cd $(Build.SourcesDirectory)/frontend 
     dir
     npm install
   displayName: 'Instalar dependencias de React'
