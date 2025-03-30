@@ -1,0 +1,187 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left-section {
+  flex: 0 0 30%; 
+  background-color: #F8F199; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.login-logo {
+  height: 250px;
+  width: auto;
+  margin-bottom: 30px; 
+}
+
+.left-section h1 {
+  font-size: 3rem;
+  color: #000000;
+  margin: 0 0 15px 0; 
+}
+
+.left-section p {
+  font-size: 1.3rem; 
+  color: #000000;
+  line-height: 1.5;
+}
+
+
+.right-section {
+  flex: 1; 
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 510px; 
+  text-align: center;
+}
+
+.form-container h2 {
+  font-size: 3.5rem; 
+  color: #000000;
+  margin-bottom: 40px; 
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 1.1rem; 
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 20px; 
+}
+
+.login-input {
+  padding: 14px 20px; 
+  font-size: 1.2rem; /* Texto más grande */
+  border: 1px solid #000000; /* Borde negro */
+  border-radius: 25px; /* Bordes redondeados */
+  background-color: #F5F5F5; /* Fondo gris claro */
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-input::placeholder {
+  color: #666666;
+  font-size: 1.2rem; /* Placeholder más grande */
+}
+
+.login-button {
+  padding: 14px; /* Botón más alto */
+  font-size: 1.2rem; /* Texto más grande */
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #897F0E; /* Verde oscuro */
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-button:hover {
+  background-color: #7A8A4B; /* Verde más oscuro al pasar el mouse */
+}
+
+.guest-button {
+  margin-top: 50px; /* Espacio arriba del botón */
+  padding: 14px; /* Mismo padding que el botón principal */
+  font-size: 1.2rem; /* Texto más grande */
+  font-weight: bold;
+  color: #000000;
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Borde verde oscuro */
+  border-radius: 25px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.guest-button:hover {
+  color: #897F0E; /* Fondo gris claro al pasar el mouse */
+}
+
+/* Media Query para pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+  .login-container {
+    display: block; /* Cambia de flex a block para que no haya dos secciones */
+  }
+
+  .left-section {
+    display: none; /* Oculta la sección izquierda en pantallas pequeñas */
+  }
+
+  .right-section {
+    width: 100%; /* La sección derecha ocupa todo el ancho */
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    padding: 0; /* Elimina el padding para un centrado más preciso */
+    display: flex; /* Asegura que el contenido esté centrado */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+  }
+
+  .form-container {
+    max-width: 90%; /* Reduce el ancho máximo para que no toque los bordes */
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    padding: 20px; /* Añade un padding uniforme */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+  }
+
+  .form-container h2 {
+    font-size: 2rem; /* Reduce el tamaño del título en pantallas pequeñas */
+    margin-bottom: 30px;
+  }
+
+  .login-input {
+    font-size: 1rem; /* Reduce el tamaño del texto en los inputs */
+    padding: 12px 15px; /* Reduce el padding de los inputs */
+  }
+
+  .login-input::placeholder {
+    font-size: 1rem; /* Reduce el tamaño del placeholder */
+  }
+
+  .login-button {
+    font-size: 1rem; /* Reduce el tamaño del texto del botón */
+    padding: 12px; /* Reduce el padding del botón */
+  }
+
+  .guest-button {
+    font-size: 1rem; 
+    padding: 12px;
+    margin-top: 30px; 
+  }
+  .success-message {
+    color: #28a745; /* Verde para éxito */
+    text-align: center;
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #d4edda;
+  }
+}

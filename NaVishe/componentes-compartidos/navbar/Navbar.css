@@ -1,0 +1,207 @@
+/* General Navbar Styles */
+.navbar {
+  width: clamp(200px, 20vw, 308px);
+  height: 100vh;
+  background-color: #F8F199;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  transition: width 0.3s ease;
+  z-index: 1000; /* Ensure navbar stays on top */
+}
+
+/* Navbar Header */
+.navbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Default for desktop */
+  padding: 0 clamp(10px, 2vw, 20px);
+  margin-top: 20px;
+  margin-bottom: clamp(20px, 5vh, 70px);
+}
+
+.navbar-header .logo-principal {
+  height: clamp(50px, 6vw, 70px);
+  width: auto;
+  margin-right: clamp(5px, 1vw, 10px);
+}
+
+.navbar-header h1 {
+  color: black;
+  font-size: clamp(24px, 3vw, 32px);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hamburger Button */
+.hamburger {
+  display: none; /* Hidden by default on desktop */
+  font-size: clamp(20px, 3vw, 24px);
+  background: none;
+  border: none;
+  cursor: pointer;
+  order: -1; /* Moves hamburger to the left in flex layout */
+}
+
+/* Desktop Navigation */
+.navbar-navegacion {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-left: clamp(1rem, 2vw, 1.5rem);
+}
+
+.nav-item {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  align-items: center;
+  cursor: pointer; /* Indicate clickable items */
+}
+
+.nav-item.active {
+  background-color: #e0e080; /* Highlight active item */
+}
+
+.navbar-navegacion .descripcion {
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: Arial, Helvetica, sans-serif;
+  padding-bottom: clamp(20px, 3vh, 50px);
+  padding-left: clamp(10px, 1.5vw, 18px);
+  padding-top: clamp(8px, 1vh, 12px);
+}
+
+.navbar-navegacion .icono-1,
+.navbar-navegacion .icono-2,
+.navbar-navegacion .icono-3,
+.navbar-navegacion .icono-4 {
+  height: clamp(32px, 4vw, 48px);
+  width: auto;
+}
+
+.navbar-navegacion .iconFlecha {
+  padding-top: clamp(8px, 1vh, 14px);
+}
+
+/* Logout Section */
+.LogOut {
+  font-size: clamp(16px, 2vw, 20px);
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: clamp(1rem, 2vw, 1.5rem);
+}
+
+.LogOut .cs {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  margin-top: clamp(20px, 3vh, 45px);
+  cursor: pointer; /* Indicate clickable item */
+}
+
+.LogOut .cs .descripcion {
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: Arial, Helvetica, sans-serif;
+  padding-top: clamp(10px, 1vh, 15px);
+  padding-left: clamp(10px, 2vw, 20px);
+}
+
+.LogOut .cs .icono-5 {
+  height: clamp(32px, 4vw, 48px);
+  width: auto;
+}
+
+.LogOut .cs .iconFlecha {
+  padding-top: clamp(8px, 1vh, 13px);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none; /* Hidden by default */
+}
+
+.mobile-menu.open {
+  display: block;
+  position: fixed; /* Use fixed to ensure it stays below the header */
+  top: 60px; /* Adjust based on navbar-header height */
+  left: 0;
+  width: 100%;
+  background-color: #F8F199;
+  padding: 10px 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a shadow for better visibility */
+}
+
+.mobile-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-menu-item {
+  display: flex;
+  align-items: center;
+  padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 20px); /* More padding for touch targets */
+  font-size: clamp(16px, 2.5vw, 20px); /* Larger font for readability */
+  font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 1px solid #e0e080; /* Add a separator between items */
+  cursor: pointer; /* Indicate clickable items */
+}
+
+.mobile-menu-item.active {
+  background-color: #e0e080;
+  font-weight: bold; /* Make active item stand out */
+}
+
+.mobile-menu-icon {
+  height: clamp(28px, 3.5vw, 40px); /* Slightly smaller icons for mobile */
+  width: auto;
+  margin-right: clamp(8px, 1.5vw, 12px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    width: 100%;
+    height: auto; /* Keep height auto for content */
+    position: fixed; /* Use fixed to keep navbar at the top */
+    top: 0;
+    left: 0;
+    background-color: #F8F199;
+    z-index: 1000; /* Ensure it stays on top */
+  }
+
+  .navbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute space between hamburger, logo, and title */
+    padding: 0 clamp(10px, 2vw, 20px);
+    margin-bottom: 10px;
+  }
+
+  .navbar-header .logo-principal {
+    height: clamp(40px, 5vw, 50px); /* Slightly smaller logo for mobile */
+  }
+
+  .navbar-header h1 {
+    font-size: clamp(20px, 2.5vw, 24px); /* Smaller title for mobile */
+  }
+
+  .hamburger {
+    display: block; /* Show hamburger on mobile */
+    font-size: clamp(20px, 3vw, 24px);
+    margin-right: 0; /* Remove extra margin */
+  }
+
+  .navbar-navegacion,
+  .LogOut {
+    display: none; /* Hide desktop navigation and logout */
+  }
+
+  .mobile-menu {
+    display: none; /* Hidden by default, shown via .open */
+  }
+
+  .mobile-menu.open {
+    display: block;
+  }
+}
