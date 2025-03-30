@@ -25,14 +25,15 @@ steps:
     npm install
   displayName: 'Instalar dependencias principales'
 
-# Paso 3: Verificar existencia de package.json en el directorio frontend
+# Paso 3: Verificar existencia de package.json en el directorio principal
 - script: |
     echo Verificando si package.json existe en el directorio principal...
-    dir frontend
-  displayName: 'Verificar existencia de package.json'
+    dir $(Build.SourcesDirectory)
+  displayName: 'Verificar existencia de package.json en el directorio principal'
 
 # Paso 4: Iterar sobre las subcarpetas y realizar instalación de dependencias y pruebas
 - script: |
+    echo Instalando dependencias y ejecutando pruebas en mf-gestionarTrabajador...
     cd NaVishe/mf-gestionarTrabajador
     npm install
     npm run lint
@@ -40,13 +41,36 @@ steps:
   displayName: 'Instalar dependencias y correr pruebas en mf-gestionarTrabajador'
 
 - script: |
+    echo Instalando dependencias y ejecutando pruebas en mf-camaras...
     cd NaVishe/mf-camaras
     npm install
     npm run lint
     npm test
   displayName: 'Instalar dependencias y correr pruebas en mf-camaras'
 
-# Repite el proceso para las demás carpetas como NaVishe/mf-dashboard, etc.
+- script: |
+    echo Instalando dependencias y ejecutando pruebas en mf-dashboard...
+    cd NaVishe/mf-dashboard
+    npm install
+    npm run lint
+    npm test
+  displayName: 'Instalar dependencias y correr pruebas en mf-dashboard'
+
+- script: |
+    echo Instalando dependencias y ejecutando pruebas en mf-listaColmenas...
+    cd NaVishe/mf-listaColmenas
+    npm install
+    npm run lint
+    npm test
+  displayName: 'Instalar dependencias y correr pruebas en mf-listaColmenas'
+
+- script: |
+    echo Instalando dependencias y ejecutando pruebas en mf-login...
+    cd NaVishe/mf-login
+    npm install
+    npm run lint
+    npm test
+  displayName: 'Instalar dependencias y correr pruebas en mf-login'
 
 # Paso 5: Publicar resultados de las pruebas
 - task: PublishTestResults@2
