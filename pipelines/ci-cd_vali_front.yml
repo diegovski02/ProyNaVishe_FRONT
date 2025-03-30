@@ -24,7 +24,7 @@ steps:
 # Paso 3: Verificar si package.json existe en el directorio frontend
 - script: |
     echo Verificando si package.json existe en el directorio frontend...
-    dir frontend
+    dir $(Build.SourcesDirectory)/frontend
   displayName: 'Verificar existencia de package.json'
 
 # Paso 4: Instalar dependencias de React
