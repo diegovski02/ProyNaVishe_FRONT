@@ -15,22 +15,26 @@ steps:
 - script: echo 'Iniciando Desarrollo para Front-End...'
   displayName: 'Verificar Agente'
 
-# Paso 2: Verificar si package.json existe
+# Paso 2: Verificar existencia de package.json
 - script: |
     echo Verificando si package.json existe...
-    cd ProyNaVishe_FRONT
-    dir
+    dir $(Build.SourcesDirectory)/proynavishe_front
   displayName: 'Verificar existencia de package.json'
 
 # Paso 3: Instalar dependencias de React
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Instalar Node.js'
+
 - script: |
-    cd proynavishe_front
+    cd $(Build.SourcesDirectory)/proynavishe_front
     npm install
   displayName: 'Instalar dependencias de React'
 
 # Paso 4: Validación de código y ejecución de pruebas
 - script: |
-    cd proynavishe_front
+    cd $(Build.SourcesDirectory)/ProyNaVishe_FRONT
     npm run lint
     npm test
   displayName: 'Validación de código y pruebas'
@@ -38,13 +42,13 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFiles: '**/TEST-*.xml'
-    testRunTitle: 'Resultados de Pruebas Frontend'
+    testRunTitle: 'Resultados de Pruebas Front-End'
   displayName: 'Publicar los resultados de las pruebas'
 
 # Paso 5: Empaquetar la aplicación en un archivo .zip
 - script: |
     echo "Empaquetando la aplicación..."
-    powershell Compress-Archive -Path $(Build.SourcesDirectory)\* -DestinationPath $(Build.ArtifactStagingDirectory)\NaVisheWebApp.zip
+    powershell Compress-Archive -Path $(Build.SourcesDirectory)/proynavishe_front\* -DestinationPath $(Build.ArtifactStagingDirectory)/NaVisheWebApp.zip
   displayName: 'Empaquetar la aplicación'
 
 # Paso 6: Despliegue a QA
