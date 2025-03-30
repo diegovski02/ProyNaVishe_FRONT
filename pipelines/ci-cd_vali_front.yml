@@ -15,13 +15,14 @@ steps:
 - script: echo 'Iniciando Desarrollo para Front-End...'
   displayName: 'Verificar Agente'
 
-# Paso 2: Instalación de dependencias
+# Paso 2: Instalar dependencias de React
 - task: NodeTool@0
   inputs:
     versionSpec: '16.x'
   displayName: 'Instalar Node.js'
 
 - script: |
+    cd frontend
     npm install
   displayName: 'Instalar dependencias de React'
 
