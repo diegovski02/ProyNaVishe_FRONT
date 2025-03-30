@@ -22,19 +22,17 @@ steps:
   displayName: 'Instalar Node.js'
 
 - script: |
-    cd frontend
     npm install
   displayName: 'Instalar dependencias de React'
 
-# Paso 3: Verificar existencia de package.json en el directorio frontend
+# Paso 3: Verificar existencia de package.json en el directorio raíz
 - script: |
-    echo Verificando si package.json existe en el directorio frontend...
-    dir frontend
+    echo Verificando si package.json existe en el directorio raíz...
+    dir
   displayName: 'Verificar existencia de package.json'
 
 # Paso 4: Validación de código y ejecución de pruebas
 - script: |
-    cd frontend
     npm run lint
     npm test
   displayName: 'Validación de código y pruebas'
