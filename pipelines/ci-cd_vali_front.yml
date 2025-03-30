@@ -18,8 +18,10 @@ steps:
 # Paso 2: Verificar existencia de package.json
 - script: |
     echo Verificando si package.json existe...
-    dir $(Build.SourcesDirectory)/proynavishe_front
+    dir $(Build.SourcesDirectory)
+    dir $(Build.SourcesDirectory)\proynavishe_front
   displayName: 'Verificar existencia de package.json'
+
 
 # Paso 3: Instalar dependencias de React
 - task: NodeTool@0
