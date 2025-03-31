@@ -6,13 +6,13 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null); // Nuevo estado para mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError("Por favor, completa todos los campos");
-      setSuccessMessage(null); // Limpiar mensaje de éxito si hay error
+      setSuccessMessage(null);
       return;
     }
 
@@ -30,16 +30,20 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
       }
 
       const data = await response.json();
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token); // Almacena el token
       setError(null);
-      setSuccessMessage("¡Logeo exitoso! Bienvenido"); // Mostrar mensaje de éxito
+      setSuccessMessage("¡Logeo exitoso! Bienvenido");
+
       console.log("Inicio de sesión exitoso:", data);
       if (onLoginSuccess) {
         onLoginSuccess(data);
       }
+
+      // Redirect to the mf-listaColmenas microfrontend
+      window.location.href = "http://localhost:5003"; // Adjust the URL based on your setup
     } catch (err) {
       setError(err.message || "Algo salió mal");
-      setSuccessMessage(null); // Limpiar mensaje de éxito si hay error
+      setSuccessMessage(null);
     }
   };
 
@@ -48,6 +52,8 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
     if (onGuestLogin) {
       onGuestLogin();
     }
+    // Redirect to the mf-listaColmenas microfrontend for guest login
+    window.location.href = "http://localhost:5003"; // Adjust the URL based on your setup
   };
 
   return (
@@ -63,7 +69,7 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
         <div className="form-container">
           <h2>Iniciar Sesión en ÑaVishe</h2>
           {error && <p className="error-message">{error}</p>}
-          {successMessage && <p className="success-message">{successMessage}</p>} {/* Mostrar mensaje de éxito */}
+          {successMessage && <p className="success-message">{successMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input
