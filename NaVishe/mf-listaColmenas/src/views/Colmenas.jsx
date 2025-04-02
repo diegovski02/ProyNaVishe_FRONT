@@ -29,7 +29,7 @@ const Colmenas = () => {
     vascula: "",
     imagen_url: ""
   });
-  const [loading, setLoading] = useState(true); // Mantenemos el estado pero no lo usamos para bloquear el render
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
   const [colmenaToDelete, setColmenaToDelete] = useState(null);
 
