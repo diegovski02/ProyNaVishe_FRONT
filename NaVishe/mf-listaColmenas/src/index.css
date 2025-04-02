@@ -1,0 +1,560 @@
+/* index.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Layout principal */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.sidebar-header {
+  padding: 20px;
+  background-color: #f7c948;
+  text-align: center;
+}
+
+.sidebar-header h3 {
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 20px 0;
+  flex-grow: 1;
+}
+
+.menu-item {
+  padding: 15px 20px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-item.active {
+  background-color: #f7c948;
+  font-weight: bold;
+}
+
+.content-wrapper {
+  margin-left: clamp(200px, 20vw, 308px); /* Match the Navbar width */
+  width: calc(100% - clamp(200px, 20vw, 308px)); /* Adjust width dynamically */
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* Ensure the same width adjustment for specific screen sizes */
+@media (min-width: 100px) and (max-width: 60px) {
+  .content-wrapper {
+    margin-left: 190px; /* Match the Navbar width in this range */
+    width: calc(100% - 150px);
+  }
+
+  /* Force exactly 3 columns in the grid */
+  .colmenas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Fija 3 columnas */
+    gap: 20px;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    max-width: 1200px; /* Limita el ancho total del grid para evitar que se extienda demasiado */
+    margin: 0 auto; /* Centra el grid en la página */
+  }
+
+  /* Shrink the colmena cards */
+  .colmena-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background: white;
+    transition: transform 0.3s;
+    max-width: 100%; /* Se ajusta al contenedor del grid */
+  }
+
+  /* Adjust the header of the card */
+  .colmena-header {
+    padding: 8px; /* Reduce padding */
+    font-size: 0.9rem; /* Smaller font size for the "N° - ID" text */
+  }
+
+  /* Adjust the image placeholder */
+  .colmena-image-placeholder {
+    aspect-ratio: 16/9; /* Maintain aspect ratio */
+    height: 120px; /* Reduce the height of the image placeholder */
+  }
+
+  .colmena-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Adjust the stats section */
+  .colmena-stats {
+    padding: 10px; /* Reduce padding */
+    gap: 8px; /* Reduce gap between stat items */
+  }
+
+  .stat-item {
+    font-size: 0.85rem; /* Smaller font size for stats */
+  }
+
+  .audio-icon {
+    width: 20px; /* Reduce the size of the audio icon */
+    height: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-left: 0; /* Remove margin for mobile since navbar is fixed */
+    width: 100%; /* Full width on mobile */
+    padding-top: 60px; /* Add padding to account for fixed navbar height */
+  }
+
+  .colmenas-grid {
+    grid-template-columns: repeat(2, 1fr); /* Reduce a 2 columnas */
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .colmena-card {
+    max-width: 100%; /* Se adapta al nuevo tamaño de columna */
+  }
+
+  .colmena-header {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .colmena-image-placeholder {
+    height: 100px; /* Reduce la altura de la imagen */
+    aspect-ratio: 16/9;
+  }
+
+  .colmena-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .colmena-stats {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .stat-item {
+    font-size: 0.85rem;
+  }
+
+  .audio-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.dashboard-container {
+  padding: 40px; /* Remove padding to eliminate extra space */
+  min-height: 100vh;
+}
+
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  margin-top: 0; /* Remove the top margin that pushes content down */
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  padding: 20px; /* Add padding to the header for better spacing */
+  background-color: #f5f5f5; /* Match the background to avoid visual gaps */
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.header-left h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.header-left h2 span {
+  color: #f39c12;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 30px 10px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.add-button {
+  padding: 10px 20px;
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #e67e22;
+}
+
+.colmenas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.colmena-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  background: white;
+  transition: transform 0.3s;
+}
+
+.colmena-card:hover {
+  transform: translateY(-5px);
+}
+
+.colmena-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.colmena-header-icons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.dropdown-icon {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 10px;
+  top: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+.menu-item {
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: #f0f0f0;
+}
+
+.audio-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.colmena-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.colmena-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.colmena-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-close {
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.date-picker {
+  position: relative;
+}
+
+.calendar {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 10;
+  width: 100%;
+  max-width: 300px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.calendar-dates span {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.calendar-dates span:hover {
+  background: #f0f0f0;
+}
+
+.calendar-dates .selected {
+  background: #f39c12;
+  color: white;
+  border-radius: 50%;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.no-results {
+  text-align: center;
+  padding: 20px;
+  grid-column: 1 / -1;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .colmenas-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Reduce el tamaño mínimo de las tarjetas */
+    gap: 15px; /* Reduce el espacio entre tarjetas */
+    justify-content: center; /* Mantiene el centrado */
+  }
+
+  .colmena-card {
+    max-width: 220px; /* Reduce el tamaño máximo de las tarjetas */
+  }
+
+  /* Ajustar el tamaño de los elementos dentro de la tarjeta */
+  .colmena-header {
+    padding: 8px; /* Reduce el padding */
+    font-size: 0.9rem; /* Reduce el tamaño de fuente */
+  }
+
+  .colmena-image-placeholder {
+    height: 120px; /* Reduce la altura de la imagen */
+    aspect-ratio: 16/9; /* Mantiene la proporción */
+  }
+
+  .colmena-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .colmena-stats {
+    padding: 10px; /* Reduce el padding */
+    gap: 8px; /* Reduce el espacio entre estadísticas */
+  }
+
+  .stat-item {
+    font-size: 0.85rem; /* Reduce el tamaño de fuente de las estadísticas */
+  }
+
+  .audio-icon {
+    width: 20px; /* Reduce el tamaño del ícono */
+    height: 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .add-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .colmenas-grid {
+    grid-template-columns: 1fr; /* Reduce a 1 columna */
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .colmena-card {
+    max-width: 100%;
+  }
+
+  .colmena-header {
+    padding: 6px;
+    font-size: 0.8rem;
+  }
+
+  .colmena-image-placeholder {
+    height: 80px; /* Reduce aún más la altura de la imagen */
+  }
+
+  .colmena-stats {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .stat-item {
+    font-size: 0.75rem;
+  }
+
+  .audio-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
