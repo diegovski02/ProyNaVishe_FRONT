@@ -40,7 +40,7 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
       }
 
       // Redirect to the mf-listaColmenas microfrontend
-      window.location.href = "http://localhost:5003"; // Adjust the URL based on your setup
+      window.location.href = "http://colmenasnavishe.s3-website-us-east-1.amazonaws.com/"; // Adjust the URL based on your setup
     } catch (err) {
       setError(err.message || "Algo salió mal");
       setSuccessMessage(null);
@@ -53,7 +53,7 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
       onGuestLogin();
     }
     // Redirect to the mf-listaColmenas microfrontend for guest login
-    window.location.href = "http://localhost:5003"; // Adjust the URL based on your setup
+    window.location.href = "http://colmenasnavishe.s3-website-us-east-1.amazonaws.com/"; // Adjust the URL based on your setup
   };
 
   return (

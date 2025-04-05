@@ -8,7 +8,7 @@ export default defineConfig({
     federation({
       name: "host",
       remotes: {
-        mf_login: "http://localhost:5001/remoteEntry.js", // Debe coincidir exactamente
+        mf_login: "http://panalnavishe.s3-website-us-east-1.amazonaws.com/", // Debe coincidir exactamente
       },
       shared: ["react", "react-dom", "react-router-dom"],
     }),
