@@ -1,14 +1,15 @@
-.camaras-container {
+.trabajador-container {
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f5f5f5;
+    background-color: #f4f7fa;
+    font-family: 'Roboto', sans-serif;
   }
   
   .content-wrapper {
     flex: 1;
-    padding: 20px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,27 +21,35 @@
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
   }
   
   .header h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
   }
   
   .gestionar-btn {
     background-color: #f1c40f;
     border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #fff;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .gestionar-btn:hover {
+    background-color: #d4ac0d;
   }
   
   .table-controls {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     max-width: 1200px;
     margin-bottom: 20px;
@@ -50,17 +59,50 @@
     background-color: #3498db;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .add-btn .icon {
+    font-size: 16px;
+  }
+  
+  .search-container {
+    position: relative;
+    width: 250px;
   }
   
   .search-input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 200px;
+    padding: 12px 40px 12px 15px;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: #7f8c8d;
   }
   
   .trabajadores-table {
@@ -68,31 +110,58 @@
     max-width: 1200px;
     border-collapse: collapse;
     background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   }
   
   .trabajadores-table th,
   .trabajadores-table td {
-    padding: 12px;
+    padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ecf0f1;
   }
   
   .trabajadores-table th {
+    background-color: #34495e;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+  }
+  
+  .trabajadores-table tbody tr {
+    transition: background-color 0.3s ease;
+  }
+  
+  .trabajadores-table tbody tr:hover {
     background-color: #f9f9f9;
-    font-weight: bold;
-    color: #333;
   }
   
   .user-icon {
-    margin-right: 8px;
+    margin-right: 10px;
+    color: #7f8c8d;
+  }
+  
+  .edit-input {
+    padding: 8px;
+    border: 1px solid #dfe6e9;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  .edit-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
   }
   
   .switch {
     position: relative;
     display: inline-block;
-    width: 40px;
-    height: 20px;
+    width: 50px;
+    height: 24px;
   }
   
   .switch input {
@@ -108,16 +177,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #e74c3c;
     transition: 0.4s;
-    border-radius: 20px;
+    border-radius: 24px;
   }
   
   .slider:before {
     position: absolute;
     content: "";
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     left: 2px;
     bottom: 2px;
     background-color: white;
@@ -130,7 +199,7 @@
   }
   
   input:checked + .slider:before {
-    transform: translateX(20px);
+    transform: translateX(26px);
   }
   
   .action-btn {
@@ -138,33 +207,75 @@
     background: none;
     cursor: pointer;
     margin: 0 5px;
+    font-size: 16px;
+    transition: color 0.3s ease;
   }
   
   .edit-btn {
     color: #3498db;
   }
   
+  .edit-btn:hover {
+    color: #2980b9;
+  }
+  
   .delete-btn {
     color: #e74c3c;
+  }
+  
+  .delete-btn:hover {
+    color: #c0392b;
+  }
+  
+  .save-btn {
+    color: #2ecc71;
+  }
+  
+  .save-btn:hover {
+    color: #27ae60;
+  }
+  
+  .cancel-btn {
+    color: #e74c3c;
+  }
+  
+  .cancel-btn:hover {
+    color: #c0392b;
   }
   
   .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    margin-top: 25px;
+    gap: 10px;
   }
   
   .pagination button {
-    padding: 8px 12px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
+    padding: 8px 14px;
+    border: 1px solid #dfe6e9;
     background-color: white;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+  }
+  
+  .pagination button:disabled {
+    background-color: #ecf0f1;
+    color: #bdc3c7;
+    cursor: not-allowed;
   }
   
   .pagination button.active {
     background-color: #3498db;
     color: white;
     border: none;
+  }
+  
+  .pagination button:hover:not(:disabled) {
+    background-color: #3498db;
+    color: white;
+    border-color: #3498db;
   }

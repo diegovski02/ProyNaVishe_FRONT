@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../index.css";
 import Navbar from "componentes-compartidos/navbar";
+import { FaUser, FaEdit, FaTrash, FaSave, FaTimes, FaSearch } from "react-icons/fa"; // Íconos de react-icons
 
 const Trabajador = () => {
   const [trabajadores, setTrabajadores] = useState([
@@ -17,20 +18,20 @@ const Trabajador = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const itemsPerPage = 5;
 
-  // Filter workers based on search term
+  // Filtrar trabajadores según el término de búsqueda
   const filteredTrabajadores = trabajadores.filter(trabajador =>
     trabajador.usuario.toLowerCase().includes(searchTerm.toLowerCase()) ||
     trabajador.dni.includes(searchTerm) ||
     trabajador.correo.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Pagination calculations
+  // Cálculos de paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredTrabajadores.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredTrabajadores.length / itemsPerPage);
 
-  // Handle adding new worker
+  // Manejar agregar nuevo trabajador
   const handleAddWorker = () => {
     const newWorker = {
       usuario: "Nuevo Trabajador",
@@ -44,12 +45,12 @@ const Trabajador = () => {
     setEditingIndex(trabajadores.length);
   };
 
-  // Handle editing worker
+  // Manejar edición de trabajador
   const handleEdit = (index) => {
     setEditingIndex(index);
   };
 
-  // Handle saving edit
+  // Guardar cambios al editar
   const handleSaveEdit = (index, updatedWorker) => {
     const updatedTrabajadores = [...trabajadores];
     updatedTrabajadores[index] = updatedWorker;
@@ -57,7 +58,7 @@ const Trabajador = () => {
     setEditingIndex(null);
   };
 
-  // Handle deleting worker
+  // Manejar eliminación de trabajador
   const handleDelete = (index) => {
     if (window.confirm("¿Estás seguro de eliminar este trabajador?")) {
       const updatedTrabajadores = trabajadores.filter((_, i) => i !== index);
@@ -65,14 +66,14 @@ const Trabajador = () => {
     }
   };
 
-  // Handle status toggle
+  // Manejar cambio de estado (toggle)
   const handleStatusToggle = (index) => {
     const updatedTrabajadores = [...trabajadores];
     updatedTrabajadores[index].status = !updatedTrabajadores[index].status;
     setTrabajadores(updatedTrabajadores);
   };
 
-  // Handle pagination
+  // Manejar paginación
   const handlePrevious = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -86,7 +87,7 @@ const Trabajador = () => {
   };
 
   return (
-    <div className="camaras-container">
+    <div className="trabajador-container">
       <Navbar />
       <div className="content-wrapper">
         <div className="header">
@@ -94,14 +95,19 @@ const Trabajador = () => {
           <button className="gestionar-btn">Trabajadores</button>
         </div>
         <div className="table-controls">
-          <button className="add-btn" onClick={handleAddWorker}>+ Agregar Trabajador</button>
-          <input 
-            type="text" 
-            placeholder="Buscar Trabajador" 
-            className="search-input" 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <button className="add-btn" onClick={handleAddWorker}>
+            <FaUser className="icon" /> Agregar Trabajador
+          </button>
+          <div className="search-container">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Buscar Trabajador"
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
         <table className="trabajadores-table">
           <thead>
@@ -116,28 +122,29 @@ const Trabajador = () => {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((trabajador, index) => (
-              editingIndex === index ? (
-                <tr key={index}>
-                  <td><input defaultValue={trabajador.usuario} /></td>
-                  <td><input defaultValue={trabajador.dni} /></td>
-                  <td><input defaultValue={trabajador.correo} /></td>
-                  <td><input defaultValue={trabajador.contraseña} /></td>
-                  <td><input defaultValue={trabajador.fecha} /></td>
+            {currentItems.map((trabajador, index) => {
+              const globalIndex = indexOfFirstItem + index;
+              return editingIndex === globalIndex ? (
+                <tr key={globalIndex}>
+                  <td><input defaultValue={trabajador.usuario} className="edit-input" /></td>
+                  <td><input defaultValue={trabajador.dni} className="edit-input" /></td>
+                  <td><input defaultValue={trabajador.correo} className="edit-input" /></td>
+                  <td><input defaultValue={trabajador.contraseña} className="edit-input" /></td>
+                  <td><input defaultValue={trabajador.fecha} className="edit-input" /></td>
                   <td>
                     <label className="switch">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={trabajador.status}
-                        onChange={() => handleStatusToggle(index)}
+                        onChange={() => handleStatusToggle(globalIndex)}
                       />
                       <span className="slider round"></span>
                     </label>
                   </td>
                   <td>
-                    <button 
+                    <button
                       className="action-btn save-btn"
-                      onClick={() => handleSaveEdit(index, {
+                      onClick={() => handleSaveEdit(globalIndex, {
                         usuario: document.querySelectorAll('td input')[0].value,
                         dni: document.querySelectorAll('td input')[1].value,
                         correo: document.querySelectorAll('td input')[2].value,
@@ -146,50 +153,50 @@ const Trabajador = () => {
                         status: trabajador.status
                       })}
                     >
-                      💾
+                      <FaSave />
                     </button>
-                    <button 
+                    <button
                       className="action-btn cancel-btn"
                       onClick={() => setEditingIndex(null)}
                     >
-                      ❌
+                      <FaTimes />
                     </button>
                   </td>
                 </tr>
               ) : (
-                <tr key={index}>
-                  <td><span className="user-icon">👤</span> {trabajador.usuario}</td>
+                <tr key={globalIndex}>
+                  <td><FaUser className="user-icon" /> {trabajador.usuario}</td>
                   <td>{trabajador.dni}</td>
                   <td>{trabajador.correo}</td>
                   <td>{trabajador.contraseña}</td>
                   <td>{trabajador.fecha}</td>
                   <td>
                     <label className="switch">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={trabajador.status}
-                        onChange={() => handleStatusToggle(index)}
+                        onChange={() => handleStatusToggle(globalIndex)}
                       />
                       <span className="slider round"></span>
                     </label>
                   </td>
                   <td>
-                    <button 
-                      className="action-btn edit-btn" 
-                      onClick={() => handleEdit(index)}
+                    <button
+                      className="action-btn edit-btn"
+                      onClick={() => handleEdit(globalIndex)}
                     >
-                      ✏️
+                      <FaEdit />
                     </button>
-                    <button 
-                      className="action-btn delete-btn" 
-                      onClick={() => handleDelete(index)}
+                    <button
+                      className="action-btn delete-btn"
+                      onClick={() => handleDelete(globalIndex)}
                     >
-                      🗑️
+                      <FaTrash />
                     </button>
                   </td>
                 </tr>
-              )
-            ))}
+              );
+            })}
           </tbody>
         </table>
         <div className="pagination">
