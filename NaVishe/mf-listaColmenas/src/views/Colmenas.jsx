@@ -32,8 +32,8 @@ const Colmenas = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [colmenaToDelete, setColmenaToDelete] = useState(null);
-  const [userRole, setUserRole] = useState(""); // Estado para el rol del usuario
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar el estado de envío
+  const [userRole, setUserRole] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const API_URL = "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/desarrollo/colmena";
 
@@ -42,11 +42,10 @@ const Colmenas = () => {
   const mapRef = useRef(null);
   const googleScriptLoaded = useRef(false);
 
-  // Cargar el rol desde localStorage al montar el componente
   useEffect(() => {
     const storedRole = localStorage.getItem("userRole");
-    console.log("Valor leído de localStorage en Colmenas:", storedRole); // Depuración
-    setUserRole(storedRole || "Usuario"); // Valor por defecto si no hay rol
+    console.log("Valor leído de localStorage en Colmenas:", storedRole);
+    setUserRole(storedRole || "Usuario");
   }, []);
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const Colmenas = () => {
         }
         
         const data = await response.json();
-        setColmenas(data.body); // Extrae el array de la propiedad 'body'
+        setColmenas(data.body);
         setLoading(false);
       } catch (err) {
         console.error("Error al obtener colmenas:", err);
@@ -227,7 +226,7 @@ const Colmenas = () => {
 
   const handleModifySubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Activar estado de envío
+    setIsSubmitting(true);
     try {
       const response = await fetch(`${API_URL}/${selectedColmena.id_colmena}`, {
         method: 'PUT',
@@ -242,22 +241,37 @@ const Colmenas = () => {
         throw new Error(errorData.message || `Error ${response.status}`);
       }
 
-      const updatedColmena = await response.json();
+      const updatedColmenaData = await response.json();
+      console.log("Respuesta del API al modificar:", updatedColmenaData); // Para depuración
+
+      // Asegurarse de que updatedColmenaData tenga la estructura correcta
+      const formattedUpdatedColmena = {
+        id_colmena: selectedColmena.id_colmena,
+        nombre: selectedColmena.nombre,
+        fecha_instalacion: selectedColmena.fecha_instalacion,
+        longitud: selectedColmena.longitud,
+        latitud: selectedColmena.latitud,
+        humedad: selectedColmena.humedad,
+        temperatura: selectedColmena.temperatura,
+        peso: selectedColmena.peso,
+        imagen_url: selectedColmena.imagen_url
+      };
+
       setColmenas(colmenas.map(colmena => 
-        colmena.id_colmena === updatedColmena.id_colmena ? updatedColmena : colmena
+        colmena.id_colmena === selectedColmena.id_colmena ? formattedUpdatedColmena : colmena
       ));
       handleCloseModifyModal();
     } catch (err) {
       console.error("Error al modificar colmena:", err);
       setError(err.message);
     } finally {
-      setIsSubmitting(false); // Desactivar estado de envío
+      setIsSubmitting(false);
     }
   };
 
   const handleAddSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Activar estado de envío
+    setIsSubmitting(true);
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -273,9 +287,8 @@ const Colmenas = () => {
       }
 
       const newColmenaData = await response.json();
-      // Asegurarse de que newColmenaData tenga la estructura correcta
       const formattedNewColmena = {
-        id_colmena: newColmenaData.id_colmena || Date.now(), // Usar un ID temporal si no viene del backend
+        id_colmena: newColmenaData.id_colmena || Date.now(),
         nombre: newColmena.nombre,
         fecha_instalacion: newColmena.fecha_instalacion,
         longitud: newColmena.longitud,
@@ -291,7 +304,7 @@ const Colmenas = () => {
       console.error("Error al agregar colmena:", err);
       setError(err.message);
     } finally {
-      setIsSubmitting(false); // Desactivar estado de envío
+      setIsSubmitting(false);
     }
   };
 
@@ -305,7 +318,7 @@ const Colmenas = () => {
   const confirmDelete = async () => {
     if (!colmenaToDelete) return;
 
-    setIsSubmitting(true); // Activar estado de envío
+    setIsSubmitting(true);
     try {
       const response = await fetch(`${API_URL}/${colmenaToDelete.id_colmena}`, {
         method: 'DELETE',
@@ -327,7 +340,7 @@ const Colmenas = () => {
       setError(err.message);
       setIsDeleteModalOpen(false);
     } finally {
-      setIsSubmitting(false); // Desactivar estado de envío
+      setIsSubmitting(false);
     }
   };
 
@@ -429,7 +442,7 @@ const Colmenas = () => {
                 </div>
               </div>
               <div className="header-right" style={{ flex: '1 1 auto', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                <span style={{ marginRight: '10px' }}>{userRole}</span> {/* Mostrar el rol */}
+                <span style={{ marginRight: '10px' }}>{userRole}</span>
                 <button 
                   className="add-button" 
                   onClick={handleOpenModal}
