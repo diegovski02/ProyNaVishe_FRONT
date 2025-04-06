@@ -33,6 +33,7 @@ const Colmenas = () => {
   const [error, setError] = useState(null);
   const [colmenaToDelete, setColmenaToDelete] = useState(null);
   const [userRole, setUserRole] = useState(""); // Estado para el rol del usuario
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar el estado de envío
 
   const API_URL = "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/desarrollo/colmena";
 
@@ -226,6 +227,7 @@ const Colmenas = () => {
 
   const handleModifySubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Activar estado de envío
     try {
       const response = await fetch(`${API_URL}/${selectedColmena.id_colmena}`, {
         method: 'PUT',
@@ -248,11 +250,14 @@ const Colmenas = () => {
     } catch (err) {
       console.error("Error al modificar colmena:", err);
       setError(err.message);
+    } finally {
+      setIsSubmitting(false); // Desactivar estado de envío
     }
   };
 
   const handleAddSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Activar estado de envío
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -268,11 +273,25 @@ const Colmenas = () => {
       }
 
       const newColmenaData = await response.json();
-      setColmenas([...colmenas, newColmenaData]);
+      // Asegurarse de que newColmenaData tenga la estructura correcta
+      const formattedNewColmena = {
+        id_colmena: newColmenaData.id_colmena || Date.now(), // Usar un ID temporal si no viene del backend
+        nombre: newColmena.nombre,
+        fecha_instalacion: newColmena.fecha_instalacion,
+        longitud: newColmena.longitud,
+        latitud: newColmena.latitud,
+        humedad: newColmena.humedad,
+        temperatura: newColmena.temperatura,
+        peso: newColmena.peso,
+        imagen_url: newColmena.imagen_url
+      };
+      setColmenas([...colmenas, formattedNewColmena]);
       handleCloseModal();
     } catch (err) {
       console.error("Error al agregar colmena:", err);
       setError(err.message);
+    } finally {
+      setIsSubmitting(false); // Desactivar estado de envío
     }
   };
 
@@ -286,6 +305,7 @@ const Colmenas = () => {
   const confirmDelete = async () => {
     if (!colmenaToDelete) return;
 
+    setIsSubmitting(true); // Activar estado de envío
     try {
       const response = await fetch(`${API_URL}/${colmenaToDelete.id_colmena}`, {
         method: 'DELETE',
@@ -306,6 +326,8 @@ const Colmenas = () => {
       console.error("Error al eliminar colmena:", err);
       setError(err.message);
       setIsDeleteModalOpen(false);
+    } finally {
+      setIsSubmitting(false); // Desactivar estado de envío
     }
   };
 
@@ -408,8 +430,12 @@ const Colmenas = () => {
               </div>
               <div className="header-right" style={{ flex: '1 1 auto', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                 <span style={{ marginRight: '10px' }}>{userRole}</span> {/* Mostrar el rol */}
-                <button className="add-button" onClick={handleOpenModal}>
-                  + Agregar
+                <button 
+                  className="add-button" 
+                  onClick={handleOpenModal}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Agregando..." : "+ Agregar"}
                 </button>
               </div>
             </header>
@@ -600,8 +626,13 @@ const Colmenas = () => {
                         style={{ width: '100%' }}
                       />
                     </div>
-                    <button type="submit" className="submit-button" style={{ width: '100%' }}>
-                      Guardar Colmena
+                    <button 
+                      type="submit" 
+                      className="submit-button" 
+                      style={{ width: '100%' }}
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Agregando..." : "Guardar Colmena"}
                     </button>
                   </form>
                 </div>
@@ -756,8 +787,13 @@ const Colmenas = () => {
                         style={{ width: '100%' }}
                       />
                     </div>
-                    <button type="submit" className="submit-button" style={{ width: '100%' }}>
-                      Guardar Cambios
+                    <button 
+                      type="submit" 
+                      className="submit-button" 
+                      style={{ width: '100%' }}
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Guardando..." : "Guardar Cambios"}
                     </button>
                   </form>
                 </div>
@@ -779,6 +815,7 @@ const Colmenas = () => {
                       onClick={cancelDelete} 
                       className="submit-button" 
                       style={{ width: '45%', backgroundColor: '#ccc' }}
+                      disabled={isSubmitting}
                     >
                       Cancelar
                     </button>
@@ -786,8 +823,9 @@ const Colmenas = () => {
                       onClick={confirmDelete} 
                       className="submit-button" 
                       style={{ width: '45%', backgroundColor: '#ff4444' }}
+                      disabled={isSubmitting}
                     >
-                      Eliminar
+                      {isSubmitting ? "Eliminando..." : "Eliminar"}
                     </button>
                   </div>
                 </div>
