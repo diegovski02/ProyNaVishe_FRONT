@@ -127,18 +127,19 @@ const Colmenas = () => {
               const newLat = place.geometry.location.lat();
               const newLng = place.geometry.location.lng();
               
+              // Ensure all existing fields in newColmena are preserved
               if (isModifyModalOpen && selectedColmena) {
-                setSelectedColmena({
-                  ...selectedColmena,
+                setSelectedColmena(prev => ({
+                  ...prev,
                   latitud: newLat,
                   longitud: newLng,
-                });
+                }));
               } else {
-                setNewColmena({
-                  ...newColmena,
+                setNewColmena(prev => ({
+                  ...prev,
                   latitud: newLat,
                   longitud: newLng,
-                });
+                }));
               }
               
               setLocationInput(place.formatted_address);
@@ -159,7 +160,7 @@ const Colmenas = () => {
     if (isModalOpen || isModifyModalOpen) {
       loadGoogleMapsScript();
     }
-  }, [isModalOpen, isModifyModalOpen, selectedColmena]);
+  }, [isModalOpen, isModifyModalOpen, selectedColmena]); // Dependencies for Google Maps effect
 
   const handleOpenModal = () => {
     setNewColmena({
@@ -210,18 +211,18 @@ const Colmenas = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewColmena({
-      ...newColmena,
+    setNewColmena(prev => ({
+      ...prev,
       [name]: value
-    });
+    }));
   };
 
   const handleModifyInputChange = (e) => {
     const { name, value } = e.target;
-    setSelectedColmena({
-      ...selectedColmena,
+    setSelectedColmena(prev => ({
+      ...prev,
       [name]: value
-    });
+    }));
   };
 
   const handleModifySubmit = async (e) => {
@@ -242,9 +243,8 @@ const Colmenas = () => {
       }
 
       const updatedColmenaData = await response.json();
-      console.log("Respuesta del API al modificar:", updatedColmenaData); // Para depuración
+      console.log("Respuesta del API al modificar:", updatedColmenaData);
 
-      // Asegurarse de que updatedColmenaData tenga la estructura correcta
       const formattedUpdatedColmena = {
         id_colmena: selectedColmena.id_colmena,
         nombre: selectedColmena.nombre,
@@ -394,15 +394,15 @@ const Colmenas = () => {
     const formattedDate = newDate.toISOString();
     
     if (isModifyModalOpen && selectedColmena) {
-      setSelectedColmena({
-        ...selectedColmena,
+      setSelectedColmena(prev => ({
+        ...prev,
         fecha_instalacion: formattedDate
-      });
+      }));
     } else {
-      setNewColmena({
-        ...newColmena,
+      setNewColmena(prev => ({
+        ...prev,
         fecha_instalacion: formattedDate
-      });
+      }));
     }
     
     setSelectedDate(newDate);
