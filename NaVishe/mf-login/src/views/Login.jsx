@@ -31,60 +31,65 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
           },
           body: JSON.stringify({
             correo: email,
-            contrasena: password
+            contrasena: password,
           }),
         }
       );
 
       const data = await response.json();
-      console.log("Respuesta completa de la API:", data);
+      console.log("Respuesta completa de la API:", data); // Depuración
+      console.log("Tipo de data.body:", typeof data.body); // Depuración
+      console.log("Valor de data.body:", data.body); // Depuración
 
+      // Verificación basada en la estructura de respuesta
       if (response.status !== 200) {
         throw new Error(data.message || "Credenciales incorrectas");
       }
 
-      // Parseo del body de respuesta
+      // Manejo de data.body como un array
       let parsedBody = {};
-      try {
-        const cleanBody = data.body
-          .replace(/^\[/, '')
-          .replace(/\]$/, '')
-          .replace(/\\"/g, '"')
-          .replace(/i\\"/, '"');
-        
-        parsedBody = JSON.parse(cleanBody);
-      } catch (parseError) {
-        console.error("Error al parsear el body:", parseError);
-        throw new Error("Error procesando la respuesta del servidor");
+      if (!data.body || !Array.isArray(data.body) || data.body.length === 0) {
+        console.error("Formato inesperado de data.body:", data.body);
+        throw new Error("La respuesta del servidor no contiene datos válidos");
       }
 
+      // Tomar el primer elemento del array
+      parsedBody = data.body[0];
+      console.log("Parsed body:", parsedBody); // Depuración
+
+      // Verifica si el rol está presente
       if (!parsedBody.rol) {
+        console.error("No se encontró el campo 'rol' en la respuesta:", parsedBody);
         throw new Error("La respuesta no contiene información de rol");
       }
 
-      // Almacenar en cookie (para persistencia entre microfrontends)
+      console.log("Rol obtenido:", parsedBody.rol); // Depuración
+
+      // Almacenar en cookie
       const cookieOptions = {
         path: '/',
-        domain: window.location.hostname,
+        domain: 'localhost', // Usar 'localhost' para compartir entre puertos
         maxAge: 86400, // 1 día en segundos
         secure: window.location.protocol === 'https:',
-        sameSite: 'Lax'
+        sameSite: 'Lax',
       };
-      
+
       document.cookie = `userRole=${parsedBody.rol}; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
         .join('; ')}`;
+      console.log("Cookie establecida:", document.cookie); // Depuración
 
-      // También almacenar en localStorage (para uso dentro del mismo frontend)
+      // Opcional: Almacenar en localStorage (solo para depuración, no se compartirá entre puertos)
       localStorage.setItem("userRole", parsedBody.rol);
-      
+      console.log("Valor guardado en localStorage (solo para depuración):", localStorage.getItem("userRole")); // Depuración
+
+      // Autenticación exitosa
       setSuccessMessage(`¡Bienvenido ${parsedBody.rol}! Redirigiendo...`);
-      
+
       if (onLoginSuccess) {
         onLoginSuccess(parsedBody);
       }
 
-      // Redirección con breve retraso para mostrar mensaje
       setTimeout(() => {
         window.location.href = "http://localhost:5003";
       }, 1500);
@@ -99,15 +104,29 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
 
   const handleGuestLogin = () => {
     console.log("Ingresar como invitado");
-    
-    // Establecer rol de invitado
-    document.cookie = `userRole=invitado; path=/; domain=${window.location.hostname}; max-age=86400`;
+
+    // Almacenar rol de invitado en cookie
+    const cookieOptions = {
+      path: '/',
+      domain: 'localhost',
+      maxAge: 86400,
+      secure: window.location.protocol === 'https:',
+      sameSite: 'Lax',
+    };
+
+    document.cookie = `userRole=invitado; ${Object.entries(cookieOptions)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('; ')}`;
+    console.log("Cookie establecida (invitado):", document.cookie); // Depuración
+
+    // Opcional: Almacenar en localStorage (solo para depuración)
     localStorage.setItem("userRole", "invitado");
-    
+    console.log("Valor guardado en localStorage (invitado, solo para depuración):", localStorage.getItem("userRole")); // Depuración
+
     if (onGuestLogin) {
       onGuestLogin();
     }
-    
+
     window.location.href = "http://localhost:5003";
   };
 

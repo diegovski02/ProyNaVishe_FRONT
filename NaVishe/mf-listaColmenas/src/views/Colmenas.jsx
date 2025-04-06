@@ -32,6 +32,7 @@ const Colmenas = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [colmenaToDelete, setColmenaToDelete] = useState(null);
+  const [userRole, setUserRole] = useState(""); // Estado para el rol del usuario
 
   const API_URL = "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/desarrollo/colmena";
 
@@ -39,6 +40,13 @@ const Colmenas = () => {
   const autocompleteRef = useRef(null);
   const mapRef = useRef(null);
   const googleScriptLoaded = useRef(false);
+
+  // Cargar el rol desde localStorage al montar el componente
+  useEffect(() => {
+    const storedRole = localStorage.getItem("userRole");
+    console.log("Valor leído de localStorage en Colmenas:", storedRole); // Depuración
+    setUserRole(storedRole || "Usuario"); // Valor por defecto si no hay rol
+  }, []);
 
   useEffect(() => {
     const fetchColmenas = async () => {
@@ -55,8 +63,7 @@ const Colmenas = () => {
         }
         
         const data = await response.json();
-        // Extrae el array de la propiedad 'body'
-        setColmenas(data.body); // Cambia esto de setColmenas(data) a setColmenas(data.body)
+        setColmenas(data.body); // Extrae el array de la propiedad 'body'
         setLoading(false);
       } catch (err) {
         console.error("Error al obtener colmenas:", err);
@@ -400,7 +407,7 @@ const Colmenas = () => {
                 </div>
               </div>
               <div className="header-right" style={{ flex: '1 1 auto', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                <span style={{ marginRight: '10px' }}>Leonardo Palomino</span>
+                <span style={{ marginRight: '10px' }}>{userRole}</span> {/* Mostrar el rol */}
                 <button className="add-button" onClick={handleOpenModal}>
                   + Agregar
                 </button>
