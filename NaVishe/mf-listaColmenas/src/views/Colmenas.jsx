@@ -22,18 +22,18 @@ const Colmenas = () => {
   const [newColmena, setNewColmena] = useState({
     nombre: "",
     fecha_instalacion: "",
-    longitud: "",
-    latitud: "",
-    humedad: "",
-    temperatura: "",
-    vascula: "",
-    imagen_url: ""
+    longitud: null,
+    latitud: null,
+    humedad: null,
+    temperatura: null,
+    peso: null,
+    imagen_url: null
   });
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [colmenaToDelete, setColmenaToDelete] = useState(null);
 
-  const API_URL = "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/dev/colmena";
+  const API_URL = "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/desarrollo/colmena";
 
   const menuRef = useRef(null);
   const autocompleteRef = useRef(null);
@@ -48,16 +48,17 @@ const Colmenas = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          mode: 'cors',
         });
+        
         if (!response.ok) {
-          throw new Error('Error al obtener las colmenas');
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
+        
         const data = await response.json();
-        const parsedBody = JSON.parse(data.body);
-        setColmenas(parsedBody);
+        setColmenas(data);
         setLoading(false);
       } catch (err) {
+        console.error("Error al obtener colmenas:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -156,12 +157,12 @@ const Colmenas = () => {
     setNewColmena({
       nombre: "",
       fecha_instalacion: "",
-      longitud: "",
-      latitud: "",
-      humedad: "",
-      temperatura: "",
-      vascula: "",
-      imagen_url: ""
+      longitud: null,
+      latitud: null,
+      humedad: null,
+      temperatura: null,
+      peso: null,
+      imagen_url: null
     });
     setLocationInput("");
     setIsModalOpen(true);
@@ -218,26 +219,26 @@ const Colmenas = () => {
   const handleModifySubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/${selectedColmena.id}`, {
+      const response = await fetch(`${API_URL}/${selectedColmena.id_colmena}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        mode: 'cors',
         body: JSON.stringify(selectedColmena)
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Error al actualizar la colmena: ${response.status} - ${errorText}`);
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error ${response.status}`);
       }
 
+      const updatedColmena = await response.json();
       setColmenas(colmenas.map(colmena => 
-        colmena.id === selectedColmena.id ? selectedColmena : colmena
+        colmena.id_colmena === updatedColmena.id_colmena ? updatedColmena : colmena
       ));
       handleCloseModifyModal();
     } catch (err) {
-      console.error("Error en handleModifySubmit:", err);
+      console.error("Error al modificar colmena:", err);
       setError(err.message);
     }
   };
@@ -250,25 +251,25 @@ const Colmenas = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        mode: 'cors',
         body: JSON.stringify(newColmena)
       });
 
       if (!response.ok) {
-        throw new Error('Error al agregar la colmena');
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error ${response.status}`);
       }
 
-      const result = await response.json();
-      const newColmenaWithId = { ...newColmena, id: result.id };
-      setColmenas([...colmenas, newColmenaWithId]);
+      const newColmenaData = await response.json();
+      setColmenas([...colmenas, newColmenaData]);
       handleCloseModal();
     } catch (err) {
+      console.error("Error al agregar colmena:", err);
       setError(err.message);
     }
   };
 
-  const handleDelete = (id) => {
-    const colmena = colmenas.find(c => c.id === id);
+  const handleDelete = (id_colmena) => {
+    const colmena = colmenas.find(c => c.id_colmena === id_colmena);
     setColmenaToDelete(colmena);
     setIsDeleteModalOpen(true);
     setOpenMenuId(null);
@@ -278,25 +279,23 @@ const Colmenas = () => {
     if (!colmenaToDelete) return;
 
     try {
-      const response = await fetch(`${API_URL}/${colmenaToDelete.id}`, {
+      const response = await fetch(`${API_URL}/${colmenaToDelete.id_colmena}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        mode: 'cors',
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Error al eliminar la colmena: ${response.status} - ${errorText}`);
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error ${response.status}`);
       }
 
-      setColmenas(colmenas.filter(colmena => colmena.id !== colmenaToDelete.id));
-      console.log(`Colmena con ID ${colmenaToDelete.id} eliminada exitosamente`);
+      setColmenas(colmenas.filter(colmena => colmena.id_colmena !== colmenaToDelete.id_colmena));
       setIsDeleteModalOpen(false);
       setColmenaToDelete(null);
     } catch (err) {
-      console.error("Error en confirmDelete:", err);
+      console.error("Error al eliminar colmena:", err);
       setError(err.message);
       setIsDeleteModalOpen(false);
     }
@@ -309,7 +308,7 @@ const Colmenas = () => {
 
   const toggleCalendar = () => setIsCalendarOpen(!isCalendarOpen);
   const handleSearch = (e) => setSearchTerm(e.target.value);
-  const toggleMenu = (id) => setOpenMenuId(openMenuId === id ? null : id);
+  const toggleMenu = (id_colmena) => setOpenMenuId(openMenuId === id_colmena ? null : id_colmena);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -374,11 +373,9 @@ const Colmenas = () => {
 
   const filteredColmenas = colmenas.filter(colmena =>
     colmena.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    colmena.id?.toString().includes(searchTerm)
+    colmena.id_colmena?.toString().includes(searchTerm)
   );
 
-  // Eliminamos la condición de loading
-  // if (loading) return <div>Cargando colmenas...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -412,17 +409,17 @@ const Colmenas = () => {
             <div className="colmenas-grid">
               {filteredColmenas.length > 0 ? (
                 filteredColmenas.map((colmena) => (
-                  <div key={colmena.id} className="colmena-card">
+                  <div key={colmena.id_colmena} className="colmena-card">
                     <div className="colmena-header" style={{ flexWrap: 'wrap' }}>
-                      <span>{colmena.nombre || `Colmena ${colmena.id}`}</span>
+                      <span>{colmena.nombre || `Colmena ${colmena.id_colmena}`}</span>
                       <div className="colmena-header-icons" style={{ display: 'flex', gap: '10px' }}>
-                        <span className="dropdown-icon" onClick={() => toggleMenu(colmena.id)}>▼</span>
-                        {openMenuId === colmena.id && (
+                        <span className="dropdown-icon" onClick={() => toggleMenu(colmena.id_colmena)}>▼</span>
+                        {openMenuId === colmena.id_colmena && (
                           <div className="dropdown-menu" ref={menuRef}>
                             <div className="menu-item" onClick={() => handleOpenModifyModal(colmena)}>
                               Modificar
                             </div>
-                            <div className="menu-item" onClick={() => handleDelete(colmena.id)}>
+                            <div className="menu-item" onClick={() => handleDelete(colmena.id_colmena)}>
                               Eliminar
                             </div>
                           </div>
@@ -458,7 +455,7 @@ const Colmenas = () => {
                       </div>
                       <div className="stat-item">
                         <span className="stat-icon">⚖️</span>
-                        <span>{colmena.vascula || '--'} kg</span>
+                        <span>{colmena.peso || '--'} kg</span>
                       </div>
                     </div>
                   </div>
@@ -466,7 +463,7 @@ const Colmenas = () => {
               ) : (
                 <div className="no-results">
                   {loading ? (
-                    <p>Cargando...</p> // Puedes dejar un mensaje sutil aquí si quieres
+                    <p>Cargando colmenas...</p>
                   ) : (
                     <p>No se encontraron colmenas.</p>
                   )}
@@ -501,7 +498,7 @@ const Colmenas = () => {
                       <input
                         type="url"
                         name="imagen_url"
-                        value={newColmena.imagen_url}
+                        value={newColmena.imagen_url || ''}
                         onChange={handleInputChange}
                         placeholder="https://example.com/imagen.jpg"
                         style={{ width: '100%' }}
@@ -567,7 +564,7 @@ const Colmenas = () => {
                       <input
                         type="number"
                         name="temperatura"
-                        value={newColmena.temperatura}
+                        value={newColmena.temperatura || ''}
                         onChange={handleInputChange}
                         placeholder="Temperatura"
                         style={{ width: '100%' }}
@@ -578,7 +575,7 @@ const Colmenas = () => {
                       <input
                         type="number"
                         name="humedad"
-                        value={newColmena.humedad}
+                        value={newColmena.humedad || ''}
                         onChange={handleInputChange}
                         placeholder="Humedad"
                         style={{ width: '100%' }}
@@ -588,8 +585,8 @@ const Colmenas = () => {
                       <label>Peso (kg)</label>
                       <input
                         type="number"
-                        name="vascula"
-                        value={newColmena.vascula}
+                        name="peso"
+                        value={newColmena.peso || ''}
                         onChange={handleInputChange}
                         placeholder="Peso"
                         style={{ width: '100%' }}
@@ -608,7 +605,7 @@ const Colmenas = () => {
             <div className="modal-overlay">
               <div className="modal" style={{ width: '90%', maxWidth: '500px' }}>
                 <div className="modal-header">
-                  <h2>Ubicación de la Colmena {selectedColmena.nombre || selectedColmena.id}</h2>
+                  <h2>Ubicación de la Colmena {selectedColmena.nombre || selectedColmena.id_colmena}</h2>
                   <button className="modal-close" onClick={handleCloseMapModal}>✕</button>
                 </div>
                 <div className="modal-body">
@@ -635,7 +632,7 @@ const Colmenas = () => {
             <div className="modal-overlay">
               <div className="modal" style={{ width: '90%', maxWidth: '500px' }}>
                 <div className="modal-header">
-                  <h2>Modificar Colmena {selectedColmena.nombre || selectedColmena.id}</h2>
+                  <h2>Modificar Colmena {selectedColmena.nombre || selectedColmena.id_colmena}</h2>
                   <button className="modal-close" onClick={handleCloseModifyModal}>✕</button>
                 </div>
                 <div className="modal-body">
@@ -648,6 +645,7 @@ const Colmenas = () => {
                         value={selectedColmena.nombre || ''}
                         onChange={handleModifyInputChange}
                         style={{ width: '100%' }}
+                        required
                       />
                     </div>
                     <div className="form-group">
@@ -744,8 +742,8 @@ const Colmenas = () => {
                       <label>Peso (kg)</label>
                       <input
                         type="number"
-                        name="vascula"
-                        value={selectedColmena.vascula || ''}
+                        name="peso"
+                        value={selectedColmena.peso || ''}
                         onChange={handleModifyInputChange}
                         style={{ width: '100%' }}
                       />
@@ -767,7 +765,7 @@ const Colmenas = () => {
                   <button className="modal-close" onClick={cancelDelete}>✕</button>
                 </div>
                 <div className="modal-body">
-                  <p>¿Estás seguro de que deseas eliminar la colmena "{colmenaToDelete.nombre || `Colmena ${colmenaToDelete.id}`}"? Esta acción no se puede deshacer.</p>
+                  <p>¿Estás seguro de que deseas eliminar la colmena "{colmenaToDelete.nombre || `Colmena ${colmenaToDelete.id_colmena}`}"? Esta acción no se puede deshacer.</p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
                     <button 
                       onClick={cancelDelete} 

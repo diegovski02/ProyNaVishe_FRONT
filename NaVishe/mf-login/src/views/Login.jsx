@@ -7,53 +7,109 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+
     if (!email || !password) {
       setError("Por favor, completa todos los campos");
-      setSuccessMessage(null);
+      setIsLoading(false);
       return;
     }
 
     try {
-      const response = await fetch("https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/dev/usuario", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Credenciales inválidas");
-      }
+      const response = await fetch(
+        "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/desarrollo/usuario",
+        {
+          method: "POST",
+          credentials: 'include', // Importante para cookies
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            correo: email,
+            contrasena: password
+          }),
+        }
+      );
 
       const data = await response.json();
-      localStorage.setItem("token", data.token); // Almacena el token
-      setError(null);
-      setSuccessMessage("¡Logeo exitoso! Bienvenido");
+      console.log("Respuesta completa de la API:", data);
 
-      console.log("Inicio de sesión exitoso:", data);
-      if (onLoginSuccess) {
-        onLoginSuccess(data);
+      if (response.status !== 200) {
+        throw new Error(data.message || "Credenciales incorrectas");
       }
 
-      // Redirect to the mf-listaColmenas microfrontend
-      window.location.href = "http://colmenasnavishe.s3-website-us-east-1.amazonaws.com/"; // Adjust the URL based on your setup
+      // Parseo del body de respuesta
+      let parsedBody = {};
+      try {
+        const cleanBody = data.body
+          .replace(/^\[/, '')
+          .replace(/\]$/, '')
+          .replace(/\\"/g, '"')
+          .replace(/i\\"/, '"');
+        
+        parsedBody = JSON.parse(cleanBody);
+      } catch (parseError) {
+        console.error("Error al parsear el body:", parseError);
+        throw new Error("Error procesando la respuesta del servidor");
+      }
+
+      if (!parsedBody.rol) {
+        throw new Error("La respuesta no contiene información de rol");
+      }
+
+      // Almacenar en cookie (para persistencia entre microfrontends)
+      const cookieOptions = {
+        path: '/',
+        domain: window.location.hostname,
+        maxAge: 86400, // 1 día en segundos
+        secure: window.location.protocol === 'https:',
+        sameSite: 'Lax'
+      };
+      
+      document.cookie = `userRole=${parsedBody.rol}; ${Object.entries(cookieOptions)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('; ')}`;
+
+      // También almacenar en localStorage (para uso dentro del mismo frontend)
+      localStorage.setItem("userRole", parsedBody.rol);
+      
+      setSuccessMessage(`¡Bienvenido ${parsedBody.rol}! Redirigiendo...`);
+      
+      if (onLoginSuccess) {
+        onLoginSuccess(parsedBody);
+      }
+
+      // Redirección con breve retraso para mostrar mensaje
+      setTimeout(() => {
+        window.location.href = "http://localhost:5003";
+      }, 1500);
+
     } catch (err) {
-      setError(err.message || "Algo salió mal");
-      setSuccessMessage(null);
+      console.error("Error completo:", err);
+      setError(err.message || "Error al iniciar sesión. Verifica tus credenciales.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGuestLogin = () => {
     console.log("Ingresar como invitado");
+    
+    // Establecer rol de invitado
+    document.cookie = `userRole=invitado; path=/; domain=${window.location.hostname}; max-age=86400`;
+    localStorage.setItem("userRole", "invitado");
+    
     if (onGuestLogin) {
       onGuestLogin();
     }
-    // Redirect to the mf-listaColmenas microfrontend for guest login
-    window.location.href = "http://colmenasnavishe.s3-website-us-east-1.amazonaws.com/"; // Adjust the URL based on your setup
+    
+    window.location.href = "http://localhost:5003";
   };
 
   return (
@@ -79,6 +135,7 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Correo electrónico"
                 className="login-input"
+                required
               />
             </div>
             <div className="form-group">
@@ -89,10 +146,15 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Contraseña"
                 className="login-input"
+                required
               />
             </div>
-            <button type="submit" className="login-button">
-              Ingresar
+            <button 
+              type="submit" 
+              className="login-button"
+              disabled={isLoading}
+            >
+              {isLoading ? "Verificando..." : "Ingresar"}
             </button>
           </form>
           <button className="guest-button" onClick={handleGuestLogin}>
