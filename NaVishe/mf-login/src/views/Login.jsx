@@ -26,7 +26,6 @@ const Login = ({ onLoginSuccess, onGuestLogin }) => {
         "https://8lhoa5atqf.execute-api.us-east-1.amazonaws.com/desarrollo/usuario",
         {
           method: "POST",
-          credentials: 'include', // Importante para cookies
           headers: {
             "Content-Type": "application/json",
           },

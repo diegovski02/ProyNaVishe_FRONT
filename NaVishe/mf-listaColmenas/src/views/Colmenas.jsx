@@ -55,7 +55,8 @@ const Colmenas = () => {
         }
         
         const data = await response.json();
-        setColmenas(data);
+        // Extrae el array de la propiedad 'body'
+        setColmenas(data.body); // Cambia esto de setColmenas(data) a setColmenas(data.body)
         setLoading(false);
       } catch (err) {
         console.error("Error al obtener colmenas:", err);
@@ -63,7 +64,7 @@ const Colmenas = () => {
         setLoading(false);
       }
     };
-
+  
     fetchColmenas();
   }, []);
 
